@@ -20,7 +20,7 @@ use Symfony\Component\Finder\Finder;
  * Class controller
  * Command sample description
  */
-class CreateCommand extends Command
+class ModuleControllerCreateCommand extends Command
 {
     /** @var string Module Name */
     protected $_moduleName;

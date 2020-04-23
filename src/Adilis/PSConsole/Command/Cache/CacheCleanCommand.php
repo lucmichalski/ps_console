@@ -13,12 +13,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Cache;
 
-/**
- * Clean cache
- *
- * @author hhennes <contact@adilis.fr>
- */
-class CleanCommand extends Command
+class CacheCleanCommand extends Command
 {
     protected function configure()
     {

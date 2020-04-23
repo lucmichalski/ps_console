@@ -18,7 +18,7 @@ use Symfony\Component\Console\Output\OutputInterface;
  * Class all
  * Command sample description
  */
-class ListCommand extends Command
+class ConfigurationListCommand extends Command
 {
     const MAX_LENGTH_CONFIGURATION_VALUE = 50;
 

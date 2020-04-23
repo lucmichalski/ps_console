@@ -15,7 +15,7 @@ use Media;
 /**
  * Clear Media cache
  */
-class MediaCommand extends Command
+class CacheMediaCommand extends Command
 {
     protected function configure()
     {

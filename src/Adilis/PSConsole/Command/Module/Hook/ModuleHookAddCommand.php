@@ -9,7 +9,6 @@ namespace Adilis\PSConsole\Command\Module\Hook;
 
 use Adilis\PSConsole\Command\Module\ModuleAbstract;
 use Adilis\PSConsole\PhpParser\Node\Visitor\ModuleAddHookNodeVisitor;
-use Error;
 use PhpParser\NodeTraverser;
 use PhpParser\ParserFactory;
 use PhpParser\PrettyPrinter\Standard;
@@ -24,7 +23,7 @@ use Tools;
  * Class Hook
  * Command sample description
  */
-class AddCommand extends ModuleAbstract
+class ModuleHookAddCommand extends ModuleAbstract
 {
     protected function configure()
     {
@@ -51,7 +50,7 @@ class AddCommand extends ModuleAbstract
                 $method_visitor = new ModuleAddHookNodeVisitor($this->_moduleName, $hook);
                 $traverser->addVisitor($method_visitor);
                 $stmts = $traverser->traverse($stmts);
-            } catch (Error $e) {
+            } catch (\Error $e) {
                 echo 'Parse Error: ', $e->getMessage();
             }
 

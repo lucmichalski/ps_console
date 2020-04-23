@@ -16,7 +16,7 @@ use Module;
  * Commande qui permet de lister les hooks d'un module
  *
  */
-class ListCommand extends ModuleAbstract
+class ModuleHookListCommand extends ModuleAbstract
 {
     protected function configure()
     {

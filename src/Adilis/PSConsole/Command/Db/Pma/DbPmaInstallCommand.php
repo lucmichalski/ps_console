@@ -22,7 +22,7 @@ use Validate;
  * Class pma
  * Command sample description
  */
-class InstallCommand extends Command
+class DbPmaInstallCommand extends Command
 {
     const PMA_LAST_SOURCE = 'https://files.phpmyadmin.net/phpMyAdmin/4.9.5/phpMyAdmin-4.9.5-all-languages.zip';
 

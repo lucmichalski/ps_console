@@ -22,7 +22,7 @@ use Validate;
  * Class object
  * Command sample description
  */
-class createCommand extends Command
+class ModuleObjectcreateCommand extends Command
 {
     /** @var string Module Name */
     protected $_moduleName;

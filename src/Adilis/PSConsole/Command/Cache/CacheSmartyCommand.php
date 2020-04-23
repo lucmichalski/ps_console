@@ -12,7 +12,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Tools;
 
-class SmartyCommand extends Command
+class CacheSmartyCommand extends Command
 {
     protected function configure()
     {

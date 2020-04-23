@@ -16,7 +16,7 @@ use Symfony\Component\Filesystem\Filesystem;
  * Class pma
  * Command sample description
  */
-class UninstallCommand extends Command
+class DbPmaUninstallCommand extends Command
 {
     protected $_filesystem = null;
 

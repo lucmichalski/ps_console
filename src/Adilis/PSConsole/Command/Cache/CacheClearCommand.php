@@ -15,7 +15,7 @@ use Tools;
 /**
  * Clear all caches commands
  */
-class ClearCommand extends Command
+class CacheClearCommand extends Command
 {
     protected function configure()
     {

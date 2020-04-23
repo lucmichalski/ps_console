@@ -12,7 +12,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Cache;
 
-class FlushCommand extends Command
+class CacheFlushCommand extends Command
 {
     protected function configure()
     {

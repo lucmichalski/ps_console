@@ -15,7 +15,7 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Filesystem\Filesystem;
 
-class DumpCommand extends Command
+class DbDumpCommand extends Command
 {
     protected $_allowedTypes = [
         'all',

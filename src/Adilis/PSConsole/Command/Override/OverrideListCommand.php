@@ -16,7 +16,7 @@ use Symfony\Component\Finder\Finder;
  * Class List
  * Command sample description
  */
-class ListCommand extends Command
+class OverrideListCommand extends Command
 {
     protected function configure()
     {

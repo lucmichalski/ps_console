@@ -13,7 +13,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Module;
 
-class RegisterCommand extends ModuleAbstract
+class ModuleHookRegisterCommand extends ModuleAbstract
 {
     protected function configure()
     {

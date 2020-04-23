@@ -18,8 +18,11 @@ use Symfony\Component\Finder\Finder;
  * Class Optimize
  * Command sample description
  */
-class OptimizeCommand extends Command
+class ImageOptimizeCommand extends Command
 {
+    /** @var array Images Types */
+
+
     protected function configure()
     {
         $this

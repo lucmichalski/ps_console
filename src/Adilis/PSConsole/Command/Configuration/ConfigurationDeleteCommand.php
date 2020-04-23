@@ -17,7 +17,7 @@ use Symfony\Component\Console\Output\OutputInterface;
  * Class delete
  * Command sample description
  */
-class DeleteCommand extends Command
+class ConfigurationDeleteCommand extends Command
 {
     /**
      * @inheritDoc

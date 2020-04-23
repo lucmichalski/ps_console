@@ -15,7 +15,7 @@ use Symfony\Component\Filesystem\Filesystem;
  * Class CreateCommand
  * Command sample description
  */
-class CreateCommand extends Command
+class CommandCreateCommand extends Command
 {
     protected function configure()
     {

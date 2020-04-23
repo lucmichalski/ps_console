@@ -17,7 +17,7 @@ use Symfony\Component\Console\Output\OutputInterface;
  * Class set
  * Command sample description
  */
-class SetCommand extends Command
+class ConfigurationSetCommand extends Command
 {
     /**
      * @inheritDoc
