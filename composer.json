@@ -1,0 +1,31 @@
+{
+  "name": "adilis/psconsole",
+  "description": "",
+  "authors": [
+    {
+      "name": "ADILIS",
+      "email": "contact@adilis.fr"
+    }
+  ],
+  "require": {
+    "php": ">=5.6.0",
+    "nikic/php-parser": "^4.4",
+    "symfony/console": "^3.0",
+    "padraic/phar-updater": "^1.0",
+    "symfony/filesystem": "^3.4",
+    "symfony/finder": "^3.1"
+  },
+  "autoload": {
+    "psr-0": {
+      "Adilis": "src/"
+    }
+  },
+  "config": {
+    "preferred-install": "dist",
+    "prepend-autoloader": false,
+    "optimize-autoloader": true,
+    "vendor-dir": "src/vendor"
+  },
+  "type": "prestashop-module",
+  "require-dev": {}
+}
