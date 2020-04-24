@@ -65,11 +65,4 @@ abstract class ModuleAbstract extends Command {
     protected function addHookListArgument() {
         $this->addArgument('hooksList', InputArgument::IS_ARRAY, 'hooks name (separate multiple with spaces)');
     }
-
-    protected function createDirectory($directory) {
-        if (!$this->_filesystem->exists($directory)) {
-            $this->_filesystem->mkdir($directory, 0775);
-        }
-        $this->_filesystem->copy(_PS_IMG_DIR_ . 'index.php', $directory . DIRECTORY_SEPARATOR . 'index.php', true);
-    }
 }

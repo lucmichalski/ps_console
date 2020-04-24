@@ -26,14 +26,13 @@ class DbPmaInstallCommand extends Command {
     const PMA_LAST_SOURCE = 'https://files.phpmyadmin.net/phpMyAdmin/4.9.5/phpMyAdmin-4.9.5-all-languages.zip';
 
     protected $_progressBar = null;
-    protected $_filesystem = null;
-    protected $_finderSystem = null;
     protected $_ouput = null;
 
     protected function configure() {
         $this
             ->setName('db:pma:install')
-            ->setDescription('Install PhpMyAdmin');
+            ->setDescription('Install PhpMyAdmin')
+            ->setAliases(['pma:install']);
     }
 
     /**
@@ -41,18 +40,17 @@ class DbPmaInstallCommand extends Command {
      */
     public function execute(InputInterface $input, OutputInterface $output) {
         $this->_output = $output;
-        $this->_filesystem = new Filesystem();
-        $this->_finderSytem = new Finder();
-        $this->_helper = $this->getHelper('question');
+        $filesystem = new Filesystem();
 
-        if ($this->_filesystem->exists(_PS_ROOT_DIR_ . '/pma')) {
-            if (!$this->_helper->ask($input, $output, new YesNoQuestion('<question>PhpMyAdmin directory already exits, do you want to delete it ?</question>'))) {
+        if ($filesystem->exists(_PS_ROOT_DIR_ . '/pma')) {
+            $helper = $this->getHelper('question');
+            if (!$helper->ask($input, $output, new YesNoQuestion('<question>PhpMyAdmin directory already exits, do you want to delete it ?</question>'))) {
                 return;
             }
-            $this->_filesystem->remove(_PS_ROOT_DIR_ . '/pma');
+            $filesystem->remove(_PS_ROOT_DIR_ . '/pma');
         }
 
-        if (!$this->_filesystem->exists(_PS_ROOT_DIR_ . '/pma.zip')) {
+        if (!$filesystem->exists(_PS_ROOT_DIR_ . '/pma.zip')) {
             $output->writeln('<info>Start download PhpMyAdmin</info>');
 
             $context = stream_context_create([], ['notification' => [$this, 'progress']]);
@@ -64,26 +62,28 @@ class DbPmaInstallCommand extends Command {
 
         $zip = new \ZipArchive;
         if ($zip->open(_PS_ROOT_DIR_ . '/pma.zip') === true) {
+            $findersytem = new Finder();
+
             $zip->extractTo(_PS_ROOT_DIR_);
             $zip->close();
 
-            $this->_finderSytem->directories()->in(_PS_ROOT_DIR_)->name('phpMyAdmin-*-all-languages');
-            if (!$this->_finderSytem->count() || $this->_finderSytem->count() > 1) {
+            $findersytem->directories()->in(_PS_ROOT_DIR_)->name('phpMyAdmin-*-all-languages');
+            if (!$findersytem->count() || $findersytem->count() > 1) {
                 throw new IOException('None or too many folder');
             }
 
-            foreach ($this->_finderSytem as $file) {
+            foreach ($findersytem as $file) {
                 break;
             }
             $directory = $file->getPathName();
 
-            $this->_filesystem->rename($directory, _PS_ROOT_DIR_ . '/pma');
-            $this->_filesystem->remove(_PS_ROOT_DIR_ . '/pma.zip');
+            $filesystem->rename($directory, _PS_ROOT_DIR_ . '/pma');
+            $filesystem->remove(_PS_ROOT_DIR_ . '/pma.zip');
 
             try {
-                $this->_filesystem->appendToFile(_PS_ROOT_DIR_ . '/pma/config.inc.php', $this->_getConfigContent());
-                $this->_filesystem->appendToFile(_PS_ROOT_DIR_ . '/pma/.htaccess', $this->_getHtaccessContent());
-                $this->_filesystem->appendToFile(_PS_ROOT_DIR_ . '/pma/.htpasswd', $this->_getHtpasswdContent());
+                $filesystem->appendToFile(_PS_ROOT_DIR_ . '/pma/config.inc.php', $this->_getConfigContent());
+                $filesystem->appendToFile(_PS_ROOT_DIR_ . '/pma/.htaccess', $this->_getHtaccessContent());
+                $filesystem->appendToFile(_PS_ROOT_DIR_ . '/pma/.htpasswd', $this->_getHtpasswdContent());
             } catch (IOException $e) {
                 throw new \RuntimeException('Unable to create class file');
             }

@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @author    Adilis <contact@adilis.fr>
  * @copyright 2020 Adilis
@@ -12,10 +11,6 @@ use PrestaShopException;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-/**
- * Class Disable
- * Command sample description
- */
 class ModuleDisableCommand extends ModuleAbstract {
     protected function configure() {
         $this

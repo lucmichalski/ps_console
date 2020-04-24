@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @author    Adilis <contact@adilis.fr>
  * @copyright 2020 Adilis
@@ -9,14 +8,9 @@ namespace Adilis\PSConsole\Command\Module;
 
 use Module;
 use PrestaShopException;
-use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-/**
- * Class Enable
- * Command sample description
- */
 class ModuleEnableCommand extends ModuleAbstract {
     protected function configure() {
         $this

@@ -23,7 +23,7 @@ class CommandBuilder {
             $this->_domains = explode(':', $this->_name);
             $this->_domains = array_map('strtolower', $this->_domains);
             $this->_domains = array_map('ucfirst', $this->_domains);
-            $this->_class = end($this->_domains);
+            $this->_class = implode('', $this->_domains);
             array_pop($this->_domains);
             $this->_domainNamespace = '\\' . implode('\\', $this->_domains);
         } else {
