@@ -10,6 +10,7 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\Question;
+use Symfony\Component\Filesystem\Exception\IOException;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Finder\Finder;
 
@@ -26,7 +27,6 @@ class OverrideControllerCreateCommand extends Command {
         $controllerName = $input->getArgument('controllerName');
         $helper = $this->getHelper('question');
         $finder = new Finder();
-        $filesystem = new Filesystem();
         $controllersAutocompleter = [];
 
         if ($controllerType === null || !in_array($controllerType, ['front', 'admin'])) {
@@ -71,9 +71,15 @@ class OverrideControllerCreateCommand extends Command {
             new FrontControllerOverrideBuilder($controllerName, $controllerPath) :
             new AdminControllerOverrideBuilder($controllerName, $controllerPath);
 
-        $filesystem->dumpFile($builder->getFilePath(), $builder->getContent());
-        $output->writeln('<info>Controller override ' . $controllerName . ' created with sucess</info>');
+        try {
+            $filesystem = new Filesystem();
+            $filesystem->dumpFile($builder->getFilePath(), $builder->getContent());
+        } catch (IOException $e) {
+            $output->writeln('<error>Unable to create override ' . $controllerName . ' : ' . $e->getMessage() . '</error>');
+            return;
+        }
 
+        $output->writeln('<info>Controller override ' . $controllerName . ' created with sucess</info>');
         $this->getApplication()->find('cache:index')->run(new ArrayInput([]), $output);
         $this->getApplication()->find('dev:add-index-files')->run(new ArrayInput(['dir' => 'override/controllers']), $output);
 
