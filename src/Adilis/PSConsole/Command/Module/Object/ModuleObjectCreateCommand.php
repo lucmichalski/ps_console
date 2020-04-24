@@ -22,8 +22,7 @@ use Validate;
  * Class object
  * Command sample description
  */
-class ModuleObjectcreateCommand extends Command
-{
+class ModuleObjectcreateCommand extends Command {
     /** @var string Module Name */
     protected $_moduleName;
 
@@ -32,8 +31,7 @@ class ModuleObjectcreateCommand extends Command
 
     const FIELD_TYPES = ['int', 'bool', 'string', 'float', 'date', 'html'];
 
-    protected function configure()
-    {
+    protected function configure() {
         $this
             ->setName('module:object:create')
             ->setDescription('Generate module model object')
@@ -43,12 +41,11 @@ class ModuleObjectcreateCommand extends Command
     /**
      * @inheritDoc
      */
-    public function execute(InputInterface $input, OutputInterface $output)
-    {
+    public function execute(InputInterface $input, OutputInterface $output) {
         $moduleName = $input->getArgument('moduleName');
         $helper = $this->getHelper('question');
 
-        $params = array();
+        $params = [];
 
         $objectQuestion = new Question('<question>Model Class :</question>');
         $objectQuestion->setValidator(function ($answer) {
@@ -156,7 +153,7 @@ class ModuleObjectcreateCommand extends Command
                     $lengthDefaultValue = 20;
                     break;
             }
-            if (in_array($type, array('int', 'string', 'float'))) {
+            if (in_array($type, ['int', 'string', 'float'])) {
                 $length = $helper->ask($input, $output, new Question('<question>Field length (default is ' . $lengthDefaultValue . ') :</question>', $lengthDefaultValue));
             } else {
                 $length = null;
@@ -240,8 +237,7 @@ class ModuleObjectcreateCommand extends Command
         $output->writeln('<info>Model file generated</info>');
     }
 
-    protected function _getValidationFunctions($fieldType = null)
-    {
+    protected function _getValidationFunctions($fieldType = null) {
         $functions = [];
         try {
             $validation = new \ReflectionClass(Validate::class);
@@ -253,8 +249,7 @@ class ModuleObjectcreateCommand extends Command
         return $functions;
     }
 
-    protected function _getObjectProperties(array $fields)
-    {
+    protected function _getObjectProperties(array $fields) {
         $fieldStr = '';
         foreach ($fields as $field) {
             $fieldStr .= "\t\tpublic \$" . $field['name'];
@@ -279,8 +274,7 @@ class ModuleObjectcreateCommand extends Command
         return $fieldStr;
     }
 
-    protected function _getObjectDefinition(array $params)
-    {
+    protected function _getObjectDefinition(array $params) {
         $defStr = "\t\tpublic static \$definition = array(\n";
         $defStr .= "\t\t\t'table' => '" . $params['table_name'] . "',\n";
         $defStr .= "\t\t\t'primary' => '" . $params['primary'] . "',\n";
@@ -312,8 +306,7 @@ class ModuleObjectcreateCommand extends Command
         return $defStr;
     }
 
-    protected function _getDefaultContent()
-    {
+    protected function _getDefaultContent() {
         return
             '<?php
     if (!defined(\'_PS_VERSION_\')) {
@@ -329,12 +322,11 @@ class ModuleObjectcreateCommand extends Command
 ';
     }
 
-    protected function _generateSql(array $params)
-    {
-        $sql = array();
+    protected function _generateSql(array $params) {
+        $sql = [];
         if ($this->_filesystem->exists(_PS_MODULE_DIR_ . $this->_moduleName . '/sql/install.php')) {
             try {
-                @require_once(_PS_MODULE_DIR_ . $this->_moduleName . '/sql/install.php');
+                @require_once _PS_MODULE_DIR_ . $this->_moduleName . '/sql/install.php';
             } catch (\Exception $e) {
             }
         }
@@ -354,9 +346,8 @@ class ModuleObjectcreateCommand extends Command
         $sqlShopQueryString .= "\t\t`id_shop` int(11) unsigned NOT NULL DEFAULT \"1\",\n";
 
         foreach ($params['fields'] as $field) {
-
             $required = ($field['required'] !== false) ? 'NOT NULL' : 'DEFAULT NULL';
-            $fieldString = "\t\t`" . $field['name'] . "`";
+            $fieldString = "\t\t`" . $field['name'] . '`';
 
             switch ($field['type']) {
                 case 'int':
@@ -443,8 +434,7 @@ class ModuleObjectcreateCommand extends Command
         }
     }
 
-    protected function _getSQLInstallDefaultContent()
-    {
+    protected function _getSQLInstallDefaultContent() {
         return
             '<?php
 
@@ -460,8 +450,7 @@ class ModuleObjectcreateCommand extends Command
 ';
     }
 
-    private function addIndexFiles($dir)
-    {
+    private function addIndexFiles($dir) {
         try {
             if (!is_dir($dir)) {
                 throw new \Exception('directory doesn\'t exists');
@@ -485,7 +474,7 @@ class ModuleObjectcreateCommand extends Command
                 $i++;
             }
         } catch (\Exception $e) {
-            $output->writeln("<info>ERROR:" . $e->getMessage() . "</info>");
+            $output->writeln('<info>ERROR:' . $e->getMessage() . '</info>');
         }
     }
 }

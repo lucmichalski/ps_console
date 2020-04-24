@@ -23,10 +23,8 @@ use Tools;
  * Class Hook
  * Command sample description
  */
-class ModuleHookAddCommand extends ModuleAbstract
-{
-    protected function configure()
-    {
+class ModuleHookAddCommand extends ModuleAbstract {
+    protected function configure() {
         $this
             ->setName('module:hook:add')
             ->setDescription('Add hook to module')
@@ -34,8 +32,7 @@ class ModuleHookAddCommand extends ModuleAbstract
             ->addHookListArgument();
     }
 
-    public function execute(InputInterface $input, OutputInterface $output)
-    {
+    public function execute(InputInterface $input, OutputInterface $output) {
         $this->_helper = $this->getHelper('question');
         $this->_finder = new Finder();
         $this->_filesystem = new Filesystem();
@@ -58,7 +55,7 @@ class ModuleHookAddCommand extends ModuleAbstract
             $this->_filesystem->dumpFile($this->_moduleFilePath, $prettyPrinter->prettyPrintFile($stmts));
         }
         $this->getApplication()->find('module:hook:register')->run(
-            new ArrayInput(['moduleName'  => $this->_moduleName, 'hooksList'  => $this->_hookList]),
+            new ArrayInput(['moduleName' => $this->_moduleName, 'hooksList' => $this->_hookList]),
             $output
         );
     }

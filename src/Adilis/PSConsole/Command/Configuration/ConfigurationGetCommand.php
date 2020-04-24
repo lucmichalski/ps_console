@@ -8,10 +8,8 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class ConfigurationGetCommand extends Command
-{
-    protected function configure()
-    {
+class ConfigurationGetCommand extends Command {
+    protected function configure() {
         $this
             ->setName('configuration:get')
             ->setDescription('get configuration value')
@@ -23,8 +21,7 @@ class ConfigurationGetCommand extends Command
             ->setAliases(['config:get', 'cfg:get']);
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
-    {
+    protected function execute(InputInterface $input, OutputInterface $output) {
         $name = $input->getArgument('name');
         $value = Configuration::get($name);
         $output->writeln('<info>' . $value . '</info>');

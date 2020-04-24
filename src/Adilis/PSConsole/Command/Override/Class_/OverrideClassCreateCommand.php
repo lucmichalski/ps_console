@@ -21,10 +21,8 @@ use Symfony\Component\Finder\Finder;
  * Class class
  * Command sample description
  */
-class createCommand extends Command
-{
-    protected function configure()
-    {
+class OverrideClassCreateCommand extends Command {
+    protected function configure() {
         $this
             ->setName('override:class:create')
             ->setDescription('Create core class override')
@@ -32,8 +30,7 @@ class createCommand extends Command
             ->setAliases(['create:override:class']);
     }
 
-    public function execute(InputInterface $input, OutputInterface $output)
-    {
+    public function execute(InputInterface $input, OutputInterface $output) {
         $className = $input->getArgument('className');
         $helper = $this->getHelper('question');
         $finder = new Finder();
@@ -70,12 +67,11 @@ class createCommand extends Command
         $output->writeln('<info>Class override ' . $className . ' created with sucess</info>');
 
         $this->getApplication()->find('cache:index')->run(new ArrayInput([]), $output);
-        $this->getApplication()->find('dev:add-index-files')->run(new ArrayInput(['dir'  => 'override/classes']), $output);
+        $this->getApplication()->find('dev:add-index-files')->run(new ArrayInput(['dir' => 'override/classes']), $output);
     }
 
-    protected function _getDefaultContent()
-    {
-        $classStr  = "<?php\n";
+    protected function _getDefaultContent() {
+        $classStr = "<?php\n";
         $classStr .= "\tif (!defined('_PS_VERSION_')) {\n";
         $classStr .= "\t\texit;\n";
         $classStr .= "\t}\n\n";

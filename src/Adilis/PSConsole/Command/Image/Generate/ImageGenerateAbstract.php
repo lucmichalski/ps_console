@@ -20,8 +20,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
-abstract class ImageGenerateAbstract extends Command
-{
+abstract class ImageGenerateAbstract extends Command {
     /** @var array */
     protected $errors = [];
 
@@ -31,8 +30,7 @@ abstract class ImageGenerateAbstract extends Command
     /**
      * {@inheritdoc}
      */
-    protected function initialize(InputInterface $input, OutputInterface $output)
-    {
+    protected function initialize(InputInterface $input, OutputInterface $output) {
         $this->output = $output;
 
         return parent::initialize($input, $output);
@@ -41,8 +39,7 @@ abstract class ImageGenerateAbstract extends Command
     /**
      * {@inheritdoc}
      */
-    protected function configure()
-    {
+    protected function configure() {
         $this
             ->setName('images:generate:' . static::IMAGE_TYPE)
             ->setDescription('Regenerate ' . static::IMAGE_TYPE . ' thumbnails')
@@ -63,8 +60,7 @@ abstract class ImageGenerateAbstract extends Command
     /**
      * {@inheritdoc}
      */
-    protected function execute(InputInterface $input, OutputInterface $output)
-    {
+    protected function execute(InputInterface $input, OutputInterface $output) {
         $formats = $input->getArgument('format');
         $delete = $input->getOption('force');
 
@@ -99,8 +95,7 @@ abstract class ImageGenerateAbstract extends Command
      *
      * @throws \PrestaShopDatabaseException
      */
-    protected function regenerateThumbnails($type = 'all', $deleteOldImages = true, $imagesFormats = ['all'])
-    {
+    protected function regenerateThumbnails($type = 'all', $deleteOldImages = true, $imagesFormats = ['all']) {
         $languages = Language::getLanguages(false);
         $process = [
             ['type' => 'categories', 'dir' => _PS_CAT_IMG_DIR_],
@@ -178,8 +173,7 @@ abstract class ImageGenerateAbstract extends Command
      *
      * @return bool
      */
-    protected function deleteOldImages($dir, $type, $product = false)
-    {
+    protected function deleteOldImages($dir, $type, $product = false) {
         $toDel = scandir($dir, SCANDIR_SORT_NONE);
 
         foreach ($toDel as $d) {
@@ -227,8 +221,7 @@ abstract class ImageGenerateAbstract extends Command
      *
      * @return bool|string
      */
-    protected function regenerateNewImages($dir, $type, $productsImages = false)
-    {
+    protected function regenerateNewImages($dir, $type, $productsImages = false) {
         $processTypes = [];
         array_map(function ($row) use (&$processTypes) {
             $processTypes[] = $row['name'];
@@ -326,8 +319,7 @@ abstract class ImageGenerateAbstract extends Command
      *
      * @return bool
      */
-    protected function regenerateNoPictureImages($dir, $type, $languages)
-    {
+    protected function regenerateNoPictureImages($dir, $type, $languages) {
         $errors = false;
         $generate_hight_dpi_images = (bool) Configuration::get('PS_HIGHT_DPI');
 
@@ -355,8 +347,7 @@ abstract class ImageGenerateAbstract extends Command
     }
 
     /* Hook watermark optimization */
-    protected function regenerateWatermark($dir, $type = null)
-    {
+    protected function regenerateWatermark($dir, $type = null) {
         $result = Db::getInstance()->executeS('
 		SELECT m.`name` FROM `' . _DB_PREFIX_ . 'module` m
 		LEFT JOIN `' . _DB_PREFIX_ . 'hook_module` hm ON hm.`id_module` = m.`id_module`

@@ -4,7 +4,6 @@ namespace Adilis\PSConsole\Command\Override\Controller;
 
 use Adilis\PSConsole\PhpParser\Builder\FrontControllerOverrideBuilder;
 use Adilis\PSConsole\PhpParser\Builder\AdminControllerOverrideBuilder;
-
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Input\InputArgument;
@@ -14,19 +13,15 @@ use Symfony\Component\Console\Question\Question;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Finder\Finder;
 
-class CreateCommand extends Command
-{
-    protected function configure()
-    {
+class OverrideControllerCreateCommand extends Command {
+    protected function configure() {
         $this->setName('override:controller:create');
         $this->setDescription('Create front or admin controller override')
             ->addArgument('controllerType', InputArgument::OPTIONAL, 'front(default)|admin')
             ->addArgument('controllerName', InputArgument::OPTIONAL, 'controller name');
     }
 
-    public function execute(InputInterface $input, OutputInterface $output)
-    {
-
+    public function execute(InputInterface $input, OutputInterface $output) {
         $controllerType = $input->getArgument('controllerType');
         $controllerName = $input->getArgument('controllerName');
         $helper = $this->getHelper('question');
@@ -80,7 +75,7 @@ class CreateCommand extends Command
         $output->writeln('<info>Controller override ' . $controllerName . ' created with sucess</info>');
 
         $this->getApplication()->find('cache:index')->run(new ArrayInput([]), $output);
-        $this->getApplication()->find('dev:add-index-files')->run(new ArrayInput(['dir'  => 'override/controllers']), $output);
+        $this->getApplication()->find('dev:add-index-files')->run(new ArrayInput(['dir' => 'override/controllers']), $output);
 
         $output->writeln('it works');
     }

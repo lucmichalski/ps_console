@@ -10,5 +10,9 @@
   ],
   "main": "bin/PSConsolePhar.php",
   "output": "bin/ps.phar",
-  "stub": true
+  "stub": true,
+  "blacklist": [
+    "src/Adilis/PSConsole/Command/Command/CommandCreateCommand.php",
+    "src/Adilis/PSConsole/Command/Command/ImageOptimizeCommand.php.php"
+  ]
 }

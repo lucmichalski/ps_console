@@ -4,9 +4,7 @@ namespace Adilis\PSConsole\PhpParser\Builder;
 
 use PhpParser\Node;
 
-class ModuleBuilder extends AbstractBuilder
-{
-
+class ModuleBuilder extends AbstractBuilder {
     protected $_name;
     protected $_author;
     protected $_displayName;
@@ -15,8 +13,7 @@ class ModuleBuilder extends AbstractBuilder
     protected $_implementWidget;
     protected $_generateTemplate;
 
-    public function __construct(string $name, string $author = '', string $displayName = '', string $description = '', array $hookList = array(), bool $implementWidget = false, bool $generateTemplate = false)
-    {
+    public function __construct(string $name, string $author = '', string $displayName = '', string $description = '', array $hookList = [], bool $implementWidget = false, bool $generateTemplate = false) {
         parent::__construct();
 
         $this->_name = strtolower($name);
@@ -28,13 +25,11 @@ class ModuleBuilder extends AbstractBuilder
         $this->_generateTemplate = $generateTemplate;
     }
 
-    public function getFilePath()
-    {
+    public function getFilePath() {
         return _PS_MODULE_DIR_ . $this->_name . DIRECTORY_SEPARATOR . $this->_name . '.php';
     }
 
-    protected function buildNodes()
-    {
+    protected function buildNodes() {
         return [
             ($this->_implementWidget) ? $this->_builder->use('PrestaShop\PrestaShop\Core\Module\WidgetInterface')->getNode() : null,
             $this->buildSecurityNode(),
@@ -42,8 +37,7 @@ class ModuleBuilder extends AbstractBuilder
         ];
     }
 
-    private function buildSecurityNode()
-    {
+    private function buildSecurityNode() {
         return new Node\Stmt\If_(
             new Node\Expr\BooleanNot(
                 new Node\Expr\FuncCall(
@@ -54,9 +48,8 @@ class ModuleBuilder extends AbstractBuilder
             ['stmts' => [new Node\Expr\Exit_]]
         );
     }
-    private function buildClassNode()
-    {
 
+    private function buildClassNode() {
         $hooks = ['displayHeader', 'backOfficeHeader'];
         foreach ($this->_hookList as $hook) {
             $hooks[] = $hook;
@@ -154,7 +147,6 @@ class ModuleBuilder extends AbstractBuilder
                         /*,
                         */
                     ])
-
             )
             ->addStmt(
                 $this->_builder->method('install')
@@ -235,8 +227,7 @@ class ModuleBuilder extends AbstractBuilder
         return $this->_classNode->getNode();
     }
 
-    private function addHookMethod($hook, array $stmts = array())
-    {
+    private function addHookMethod($hook, array $stmts = []) {
         $method_name = 'hook' . ucfirst($hook);
         $method_node = $this->_builder->method($method_name)
             ->makePublic()

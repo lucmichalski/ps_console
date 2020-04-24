@@ -16,18 +16,15 @@ use Symfony\Component\Finder\Finder;
  * Class List
  * Command sample description
  */
-class OverrideListCommand extends Command
-{
-    protected function configure()
-    {
+class OverrideListCommand extends Command {
+    protected function configure() {
         $this
             ->setName('override:list')
             ->setDescription('List overrides of classes and controllers in the project')
             ->setAliases(['list:override']);
     }
 
-    public function execute(InputInterface $input, OutputInterface $output)
-    {
+    public function execute(InputInterface $input, OutputInterface $output) {
         $outputString = '';
         try {
             $finder = new Finder();
@@ -37,12 +34,12 @@ class OverrideListCommand extends Command
                 $outputString .= $file->getRelativePathname() . "\n";
             }
         } catch (\Exception $e) {
-            $output->writeln("<info>ERROR:" . $e->getMessage() . "</info>");
+            $output->writeln('<info>ERROR:' . $e->getMessage() . '</info>');
             return 1;
         }
         if ($outputString == '') {
             $outputString = 'No class or controllers overrides on this project';
         }
-        $output->writeln("<info>" . $outputString . "</info>");
+        $output->writeln('<info>' . $outputString . '</info>');
     }
 }

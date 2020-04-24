@@ -12,18 +12,15 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Cache;
 
-class CacheFlushCommand extends Command
-{
-    protected function configure()
-    {
+class CacheFlushCommand extends Command {
+    protected function configure() {
         $this
             ->setName('cache:flush')
             ->setDescription('Flush cache');
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
-    {
-        $cache =  Cache::getInstance();
+    protected function execute(InputInterface $input, OutputInterface $output) {
+        $cache = Cache::getInstance();
         $cache->flush();
 
         //Specific cacheFS

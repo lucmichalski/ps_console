@@ -16,12 +16,10 @@ use Symfony\Component\Filesystem\Filesystem;
  * Class pma
  * Command sample description
  */
-class DbPmaUninstallCommand extends Command
-{
+class DbPmaUninstallCommand extends Command {
     protected $_filesystem = null;
 
-    protected function configure()
-    {
+    protected function configure() {
         $this
             ->setName('db:pma:uninstall')
             ->setDescription('Uninstall PhpMyAdmin');
@@ -30,17 +28,16 @@ class DbPmaUninstallCommand extends Command
     /**
      * @inheritDoc
      */
-    public function execute(InputInterface $input, OutputInterface $output)
-    {
+    public function execute(InputInterface $input, OutputInterface $output) {
         $this->_output = $output;
         $this->_filesystem = new Filesystem();
 
         if (!$this->_filesystem->exists(_PS_ROOT_DIR_ . '/pma')) {
-            $output->writeln("<error>PhpMyAdmin directory not exits</error>");
+            $output->writeln('<error>PhpMyAdmin directory not exits</error>');
             return;
         }
 
         $this->_filesystem->remove(_PS_ROOT_DIR_ . '/pma');
-        $output->writeln("<info>PhpMyAdmin have been successfully uninstalled</info>");
+        $output->writeln('<info>PhpMyAdmin have been successfully uninstalled</info>');
     }
 }

@@ -22,8 +22,7 @@ use Validate;
  * Class pma
  * Command sample description
  */
-class DbPmaInstallCommand extends Command
-{
+class DbPmaInstallCommand extends Command {
     const PMA_LAST_SOURCE = 'https://files.phpmyadmin.net/phpMyAdmin/4.9.5/phpMyAdmin-4.9.5-all-languages.zip';
 
     protected $_progressBar = null;
@@ -31,8 +30,7 @@ class DbPmaInstallCommand extends Command
     protected $_finderSystem = null;
     protected $_ouput = null;
 
-    protected function configure()
-    {
+    protected function configure() {
         $this
             ->setName('db:pma:install')
             ->setDescription('Install PhpMyAdmin');
@@ -41,8 +39,7 @@ class DbPmaInstallCommand extends Command
     /**
      * @inheritDoc
      */
-    public function execute(InputInterface $input, OutputInterface $output)
-    {
+    public function execute(InputInterface $input, OutputInterface $output) {
         $this->_output = $output;
         $this->_filesystem = new Filesystem();
         $this->_finderSytem = new Finder();
@@ -56,7 +53,7 @@ class DbPmaInstallCommand extends Command
         }
 
         if (!$this->_filesystem->exists(_PS_ROOT_DIR_ . '/pma.zip')) {
-            $output->writeln("<info>Start download PhpMyAdmin</info>");
+            $output->writeln('<info>Start download PhpMyAdmin</info>');
 
             $context = stream_context_create([], ['notification' => [$this, 'progress']]);
             $resource = file_get_contents(self::PMA_LAST_SOURCE, false, $context);
@@ -66,7 +63,7 @@ class DbPmaInstallCommand extends Command
         }
 
         $zip = new \ZipArchive;
-        if ($zip->open(_PS_ROOT_DIR_ . '/pma.zip') === TRUE) {
+        if ($zip->open(_PS_ROOT_DIR_ . '/pma.zip') === true) {
             $zip->extractTo(_PS_ROOT_DIR_);
             $zip->close();
 
@@ -88,14 +85,13 @@ class DbPmaInstallCommand extends Command
                 $this->_filesystem->appendToFile(_PS_ROOT_DIR_ . '/pma/.htaccess', $this->_getHtaccessContent());
                 $this->_filesystem->appendToFile(_PS_ROOT_DIR_ . '/pma/.htpasswd', $this->_getHtpasswdContent());
             } catch (IOException $e) {
-                throw new \RuntimeException("Unable to create class file");
+                throw new \RuntimeException('Unable to create class file');
             }
         }
-        $output->writeln("<info>PhpMyAdmin have been successfully installed</info>");
+        $output->writeln('<info>PhpMyAdmin have been successfully installed</info>');
     }
 
-    public function progress($notificationCode, $severity, $message, $messageCode, $bytesTransferred, $bytesMax)
-    {
+    public function progress($notificationCode, $severity, $message, $messageCode, $bytesTransferred, $bytesMax) {
         if (STREAM_NOTIFY_REDIRECTED === $notificationCode) {
             $this->_progressBar->clear();
             $this->_progressBar = null;
@@ -121,23 +117,20 @@ class DbPmaInstallCommand extends Command
         }
     }
 
-    protected function _getHtaccessContent()
-    {
-        $htAccessStr  = "AuthUserFile " . _PS_ROOT_DIR_ . "/pma/.htpasswd\n";
+    protected function _getHtaccessContent() {
+        $htAccessStr = 'AuthUserFile ' . _PS_ROOT_DIR_ . "/pma/.htpasswd\n";
         $htAccessStr .= "AuthType Basic\n";
         $htAccessStr .= "AuthName \"PhpMyAdmin restricted Area\"\n";
         $htAccessStr .= "Require valid-user\n";
         return $htAccessStr;
     }
 
-    protected function _getHtpasswdContent()
-    {
+    protected function _getHtpasswdContent() {
         return 'adilis:$apr1$esfijpv3$cOvhpzZL2ODB.v50HjqmI.';
     }
 
-    protected function _getConfigContent()
-    {
-        $configStr  = "<?php\n";
+    protected function _getConfigContent() {
+        $configStr = "<?php\n";
         $configStr .= "\tdeclare(strict_types=1);\n";
         $configStr .= "\trequire dirname(__FILE__).'/../config/config.inc.php';\n\n";
         $configStr .= "\t\$cfg['Servers'][1]['auth_type'] = 'config';\n";

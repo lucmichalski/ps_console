@@ -17,13 +17,11 @@ use Symfony\Component\Console\Output\OutputInterface;
  * Class delete
  * Command sample description
  */
-class ConfigurationDeleteCommand extends Command
-{
+class ConfigurationDeleteCommand extends Command {
     /**
      * @inheritDoc
      */
-    protected function configure()
-    {
+    protected function configure() {
         $this
             ->setName('configuration:delete')
             ->setDescription('Delete configuration by name')
@@ -32,14 +30,14 @@ class ConfigurationDeleteCommand extends Command
                 InputArgument::REQUIRED,
                 'configuration name'
             )
-            ->setAliases(['config:delete', 'cfg:delete']);;
+            ->setAliases(['config:delete', 'cfg:delete']);
+        ;
     }
 
     /**
      * @inheritDoc
      */
-    public function execute(InputInterface $input, OutputInterface $output)
-    {
+    public function execute(InputInterface $input, OutputInterface $output) {
         $name = $input->getArgument('name');
         $value = Configuration::deleteByName($name);
         $output->writeln('<info>' . $value . '</info>');

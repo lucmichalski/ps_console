@@ -17,8 +17,7 @@ use Symfony\Component\Console\Question\Question;
 use Symfony\Component\Filesystem\Filesystem;
 use Validate;
 
-abstract class ModuleAbstract extends Command
-{
+abstract class ModuleAbstract extends Command {
     protected $_moduleName;
     protected $_moduleRelativePath;
     protected $_modulePath;
@@ -27,8 +26,7 @@ abstract class ModuleAbstract extends Command
     protected $_filesystem;
     protected $_helper;
 
-    protected function initialize(InputInterface $input, OutputInterface $output)
-    {
+    protected function initialize(InputInterface $input, OutputInterface $output) {
         $this->_moduleName = $input->getArgument('moduleName');
         $this->_filesystem = new Filesystem();
         $this->_helper = new QuestionHelper();
@@ -59,19 +57,16 @@ abstract class ModuleAbstract extends Command
         }
     }
 
-    protected function addModuleNameArgument()
-    {
+    protected function addModuleNameArgument() {
         $this->addArgument('moduleName', InputArgument::OPTIONAL, 'module name');
         return $this;
     }
 
-    protected function addHookListArgument()
-    {
+    protected function addHookListArgument() {
         $this->addArgument('hooksList', InputArgument::IS_ARRAY, 'hooks name (separate multiple with spaces)');
     }
 
-    protected function createDirectory($directory)
-    {
+    protected function createDirectory($directory) {
         if (!$this->_filesystem->exists($directory)) {
             $this->_filesystem->mkdir($directory, 0775);
         }

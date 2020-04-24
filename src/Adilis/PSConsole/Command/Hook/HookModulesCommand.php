@@ -14,71 +14,33 @@ use Symfony\Component\Console\Helper\Table;
 use Hook;
 use Symfony\Component\Console\Helper\TableSeparator;
 
-/**
- * Class Module
- * List hook with registered modules
- */
-class HookModulesCommand extends Command
-{
-    /**
-     * @inheritDoc
-     */
-    protected function configure()
-    {
+class HookModulesCommand extends Command {
+    protected function configure() {
         $this
             ->setName('hook:modules')
             ->setDescription('List all hooks with hooked modules');
     }
 
-    /**
-     * @inheritDoc
-     */
-    public function execute(InputInterface $input, OutputInterface $output)
-    {
-        //Get Hooks list
-        $hooks = Hook::getHooks();
-
-        //Extract only hooks name
+    public function execute(InputInterface $input, OutputInterface $output) {
         $hooks = array_map(function ($row) {
             return $row['name'];
-        }, $hooks);
+        }, Hook::getHooks());
 
-        //Sort hooks by name
-        usort($hooks, array($this, "cmp"));
-
-        //Init Table
         $table = new Table($output);
         $table->setHeaders(['Hook Name', 'Modules hooked']);
 
         foreach ($hooks as $hook) {
-
-            //Get Modules hooked
             $hookModules = Hook::getHookModuleExecList($hook);
-
             if ($hookModules) {
-
-                //Add module information on hook
                 $hookModulesInformations = '';
                 foreach ($hookModules as $index => $hookModule) {
-                    $hookModulesInformations .= ($index + 1) . "." . $hookModule['module'] . "\n";
+                    $hookModulesInformations .= ($index + 1) . '.' . $hookModule['module'] . "\n";
                 }
                 $table->addRow([$hook, trim($hookModulesInformations, ', ')]);
                 $table->addRow(new TableSeparator());
             }
         }
 
-        //Display result
         $table->render();
-    }
-
-    /**
-     * Function to sort hook by name
-     * @param $a
-     * @param $b
-     * @return int|\lt
-     */
-    private function cmp($a, $b)
-    {
-        return strcmp($a, $b);
     }
 }

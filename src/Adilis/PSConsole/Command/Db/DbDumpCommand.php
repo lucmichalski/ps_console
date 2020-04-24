@@ -15,8 +15,7 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Filesystem\Filesystem;
 
-class DbDumpCommand extends Command
-{
+class DbDumpCommand extends Command {
     protected $_allowedTypes = [
         'all',
         'customers',
@@ -24,8 +23,7 @@ class DbDumpCommand extends Command
         'catalog',
     ];
 
-    protected function configure()
-    {
+    protected function configure() {
         $this
             ->setName('db:dump')
             ->setDescription('Create db export ')
@@ -39,8 +37,7 @@ class DbDumpCommand extends Command
      * @param OutputInterface $output
      * @return bool|void
      */
-    protected function execute(InputInterface $input, OutputInterface $output)
-    {
+    protected function execute(InputInterface $input, OutputInterface $output) {
         if (!is_dir(_PS_ROOT_DIR_ . '/dumps')) {
             $filesystem = new Filesystem;
             $filesystem->mkdir(_PS_ROOT_DIR_ . '/dumps', 0755);
@@ -65,9 +62,10 @@ class DbDumpCommand extends Command
         $mysql_dump_path = Configuration::get('PSC_MYSQLDUMP_PATH', null, null, null, 'mysqldump');
         $command = $mysql_dump_path;
         if (preg_match('/^(.*):([0-9]+)$/', _DB_SERVER_, $matches)) {
-            $command .= " -h " . $matches[1] . ' --port=' . $matches[2];;
+            $command .= ' -h ' . $matches[1] . ' --port=' . $matches[2];
+            ;
         } else {
-            $command .= " -h " . _DB_SERVER_;
+            $command .= ' -h ' . _DB_SERVER_;
         }
         $command .= ' -u ' . _DB_USER_ . ' -p' . _DB_PASSWD_ . ' ' . _DB_NAME_ . ' ';
 
@@ -79,7 +77,7 @@ class DbDumpCommand extends Command
             $tables = array_map(function ($item) {
                 return _DB_PREFIX_ . $item;
             }, $tables);
-            $command .= implode(" ", $tables);
+            $command .= implode(' ', $tables);
         }
 
         ($gzip !== false) ? $command .= ' | gzip ' : '';
@@ -94,13 +92,11 @@ class DbDumpCommand extends Command
         $output->writeln('<info>Export ended</info>');
     }
 
-
     /**
      * Récupération des tables du catalogue
      * @return array
      */
-    protected function _getCustomersTables()
-    {
+    protected function _getCustomersTables() {
         return [
             'customer',
             'customer_group',
@@ -115,8 +111,7 @@ class DbDumpCommand extends Command
      * Récupération des tables du catalogue
      * @return array
      */
-    protected function _getOrdersTables()
-    {
+    protected function _getOrdersTables() {
         return [
             'cart',
             'cart_product',
@@ -154,8 +149,7 @@ class DbDumpCommand extends Command
      * Récupération des tables du catalogue
      * @return array
      */
-    protected function _getCatalogTables()
-    {
+    protected function _getCatalogTables() {
         return [
             'product',
             'product_shop',

@@ -16,22 +16,19 @@ use Module;
  * Commande qui permet de lister les hooks d'un module
  *
  */
-class ModuleHookListCommand extends ModuleAbstract
-{
-    protected function configure()
-    {
+class ModuleHookListCommand extends ModuleAbstract {
+    protected function configure() {
         $this
             ->setName('module:hook:list')
             ->setDescription('Get modules list')
             ->addModuleNameArgument();
     }
 
-    public function execute(InputInterface $input, OutputInterface $output)
-    {
+    public function execute(InputInterface $input, OutputInterface $output) {
         if ($module = Module::getInstanceByName($this->_moduleName)) {
             //Possible hook list
             $possibleHooksList = $module->getPossibleHooksList();
-            $moduleHooks = array();
+            $moduleHooks = [];
 
             foreach ($possibleHooksList as $hook) {
                 $isHooked = (int) $module->getPosition($hook['id_hook']);

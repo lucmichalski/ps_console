@@ -18,15 +18,13 @@ use Symfony\Component\Console\Output\OutputInterface;
  * Class all
  * Command sample description
  */
-class ConfigurationListCommand extends Command
-{
+class ConfigurationListCommand extends Command {
     const MAX_LENGTH_CONFIGURATION_VALUE = 50;
 
     /**
      * @inheritDoc
      */
-    protected function configure()
-    {
+    protected function configure() {
         $this
             ->setName('configuration:list')
             ->setDescription('List all configurations')
@@ -36,25 +34,24 @@ class ConfigurationListCommand extends Command
     /**
      * @inheritDoc
      */
-    public function execute(InputInterface $input, OutputInterface $output)
-    {
+    public function execute(InputInterface $input, OutputInterface $output) {
         //Load All Configurations
         Configuration::loadConfiguration();
 
         //Get All Configuration names (except xml configuration)
-        $configurationNames = Db::getInstance()->executeS("SELECT name FROM " . _DB_PREFIX_ . "configuration WHERE name <> 'PS_INSTALL_XML_LOADERS_ID'");
+        $configurationNames = Db::getInstance()->executeS('SELECT name FROM ' . _DB_PREFIX_ . "configuration WHERE name <> 'PS_INSTALL_XML_LOADERS_ID'");
 
         $table = new Table($output);
         $table->setHeaders(['Name', 'Value']);
         foreach ($configurationNames as $configuration_name) {
             $configuration_value = Configuration::get($configuration_name['name']);
             if (strlen($configuration_value) > self::MAX_LENGTH_CONFIGURATION_VALUE) {
-                $configuration_value = substr($configuration_value, 0, self::MAX_LENGTH_CONFIGURATION_VALUE) . " (*)";
+                $configuration_value = substr($configuration_value, 0, self::MAX_LENGTH_CONFIGURATION_VALUE) . ' (*)';
             }
             $table->addRow([$configuration_name['name'], $configuration_value]);
         }
 
         $table->render();
-        $output->writeln("(*) : Value truncated");
+        $output->writeln('(*) : Value truncated');
     }
 }

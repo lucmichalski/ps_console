@@ -21,10 +21,8 @@ use Symfony\Component\Console\Question\Question;
  * Class create
  * Command sample description
  */
-class CreateCommand extends ModuleAbstract
-{
-    protected function configure()
-    {
+class ModuleCreateCommand extends ModuleAbstract {
+    protected function configure() {
         $this
             ->setName('module:create')
             ->setDescription('Generate module skeleton')
@@ -32,8 +30,7 @@ class CreateCommand extends ModuleAbstract
             ->addHookListArgument();
     }
 
-    public function execute(InputInterface $input, OutputInterface $output)
-    {
+    public function execute(InputInterface $input, OutputInterface $output) {
         $author = $this->_helper->ask($input, $output, new Question('<question>Module author :</question>', Configuration::get('PSC_AUTHOR_DEFAULT')));
         $displayName = $this->_helper->ask($input, $output, new Question('<question>Module Display name :</question>', $this->_moduleName));
         $description = $this->_helper->ask($input, $output, new Question('<question>Module description :</question>', $this->_moduleName));
@@ -65,6 +62,6 @@ class CreateCommand extends ModuleAbstract
         }
 
         $output->writeln('<info>Module generated with success</info>');
-        $this->getApplication()->find('dev:add-index-files')->run(new ArrayInput(['dir'  => $this->_moduleRelativePath]), $output);
+        $this->getApplication()->find('dev:add-index-files')->run(new ArrayInput(['dir' => $this->_moduleRelativePath]), $output);
     }
 }

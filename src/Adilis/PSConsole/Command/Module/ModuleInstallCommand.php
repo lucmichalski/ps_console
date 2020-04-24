@@ -16,17 +16,14 @@ use Symfony\Component\Console\Output\OutputInterface;
  * Class Install
  * Command sample description
  */
-class InstallCommand extends ModuleAbstract
-{
-    protected function configure()
-    {
+class ModuleInstallCommand extends ModuleAbstract {
+    protected function configure() {
         $this
             ->setName('module:install')
             ->addModuleNameArgument();
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
-    {
+    protected function execute(InputInterface $input, OutputInterface $output) {
         if ($module = Module::getInstanceByName($this->_moduleName)) {
             if (!Module::isInstalled($module->name)) {
                 try {

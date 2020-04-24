@@ -16,10 +16,8 @@ use Symfony\Component\Console\Output\OutputInterface;
  * Class Reset
  * Command sample description
  */
-class ResetCommand extends ModuleAbstract
-{
-    protected function configure()
-    {
+class ModuleResetCommand extends ModuleAbstract {
+    protected function configure() {
         $this
             ->setName('module:reset')
             ->setDescription('Reset module')
@@ -27,11 +25,8 @@ class ResetCommand extends ModuleAbstract
             ->addOption('type', null, InputOption::VALUE_OPTIONAL, 'hard|soft(default)');
     }
 
-    public function execute(InputInterface $input, OutputInterface $output)
-    {
-
+    public function execute(InputInterface $input, OutputInterface $output) {
         $type = $input->getOption('type');
-
 
         if ($module = Module::getInstanceByName($this->_moduleName)) {
             if (Module::isInstalled($module->name)) {

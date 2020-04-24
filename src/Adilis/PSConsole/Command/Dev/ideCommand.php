@@ -15,16 +15,14 @@ use Symfony\Component\Console\Output\OutputInterface;
  * Class ide
  * Command sample description
  */
-class ideCommand extends Command
-{
+class ideCommand extends Command {
     const CLASS_NAME_SOURCE = 'https://raw.githubusercontent.com/julienbourdeau/PhpStorm-PrestaShop-Autocomplete/master/autocomplete.php';
     const CLASS_NAME_FILE = 'autocomplete.php';
 
     /**
      * @inheritDoc
      */
-    protected function configure()
-    {
+    protected function configure() {
         $this
             ->setName('dev:ide')
             ->setDescription('Download class names index to resolve autocompletion in IDE');
@@ -33,8 +31,7 @@ class ideCommand extends Command
     /**
      * @inheritDoc
      */
-    public function execute(InputInterface $input, OutputInterface $output)
-    {
+    public function execute(InputInterface $input, OutputInterface $output) {
         //Download content
         $content = file_get_contents(self::CLASS_NAME_SOURCE);
         $fileName = self::CLASS_NAME_FILE;

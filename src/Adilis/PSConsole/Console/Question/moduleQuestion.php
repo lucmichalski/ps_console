@@ -5,10 +5,8 @@ namespace Adilis\PSConsole\Console\Question;
 use Symfony\Component\Console\Question\Question;
 use Validate;
 
-class hookQuestion extends Question
-{
-    public function __construct($question, $default = null)
-    {
+class hookQuestion extends Question {
+    public function __construct($question, $default = null) {
         parent::__construct($question, $default);
         $this
             ->setValidator(function ($answer) {

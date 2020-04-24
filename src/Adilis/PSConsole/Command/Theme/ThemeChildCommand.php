@@ -22,10 +22,8 @@ use Validate;
  * Class Child
  * Command sample description
  */
-class ChildCommand extends Command
-{
-    protected function configure()
-    {
+class ThemeChildCommand extends Command {
+    protected function configure() {
         $this
             ->setName('theme:child')
             ->setDescription('Create child theme')
@@ -34,10 +32,9 @@ class ChildCommand extends Command
             ->addArgument('displayName', InputArgument::OPTIONAL, 'Child theme display name');
     }
 
-    public function execute(InputInterface $input, OutputInterface $output)
-    {
+    public function execute(InputInterface $input, OutputInterface $output) {
         if (version_compare(_PS_VERSION_, '1.7', '<')) {
-            $output->writeln("<error>This command is only available for Prestashop > 1.7.0.0 </error>");
+            $output->writeln('<error>This command is only available for Prestashop > 1.7.0.0 </error>');
             return;
         }
 
@@ -105,14 +102,14 @@ class ChildCommand extends Command
         $configArray = Yaml::dump($configArray, 3);
         $this->_filesystem->dumpFile(_PS_ALL_THEMES_DIR_ . $name . '/config/theme.yml', $configArray);
 
-        if ($this->_filesystem->exists(_PS_ALL_THEMES_DIR_  . $parent . '/preview.png')) {
+        if ($this->_filesystem->exists(_PS_ALL_THEMES_DIR_ . $parent . '/preview.png')) {
             $this->_filesystem->copy(
                 _PS_ALL_THEMES_DIR_ . $parent . '/preview.png',
                 _PS_ALL_THEMES_DIR_ . $name . '/preview.png'
             );
         }
 
-        if ($this->_filesystem->exists(_PS_ALL_THEMES_DIR_  . $parent . '/_dev/')) {
+        if ($this->_filesystem->exists(_PS_ALL_THEMES_DIR_ . $parent . '/_dev/')) {
             $this->_filesystem->mirror(
                 _PS_ALL_THEMES_DIR_ . $parent . '/_dev/',
                 _PS_ALL_THEMES_DIR_ . $name . '/_dev/'
@@ -126,15 +123,14 @@ class ChildCommand extends Command
             );
         }
 
-        $output->writeln("<info>Child theme have been successfully created</info>");
+        $output->writeln('<info>Child theme have been successfully created</info>');
     }
 
-    private function getThemesOnDisk()
-    {
+    private function getThemesOnDisk() {
         $suffix = 'config/theme.yml';
         $themeDirectories = glob(_PS_ALL_THEMES_DIR_ . '*/' . $suffix, GLOB_NOSORT);
 
-        $themes = array();
+        $themes = [];
         foreach ($themeDirectories as $directory) {
             $name = basename(substr($directory, 0, -strlen($suffix)));
             $themes[] = $name;

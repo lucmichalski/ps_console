@@ -2,7 +2,6 @@
 
 namespace Adilis\PSConsole\Command\Image\Generate;
 
-class ImageGenerateManufacturersCommand extends ImageGenerateAbstract
-{
+class ImageGenerateManufacturersCommand extends ImageGenerateAbstract {
     const IMAGE_TYPE = 'manufacturers';
 }

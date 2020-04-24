@@ -25,10 +25,10 @@ if (is_file('config/config.inc.php')) {
 }
 //If no prestashop conf find, only allow to install Prestashop
 else {
-    $configuration['commands'] = array(
+    $configuration['commands'] = [
         'Adilis\PSConsole\Command\Install\InstallCommand',
         'Adilis\PSConsole\Command\Install\InfoCommand'
-    );
+    ];
     $app->setDefaultCommand('install:info');
 }
 

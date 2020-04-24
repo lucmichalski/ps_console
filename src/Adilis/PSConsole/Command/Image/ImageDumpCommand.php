@@ -8,8 +8,7 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Filesystem\Filesystem;
 
-class ImageDumpCommand extends Command
-{
+class ImageDumpCommand extends Command {
     protected $_types = [
         'all',
         'admin',
@@ -28,16 +27,14 @@ class ImageDumpCommand extends Command
     protected $_type;
     protected $_archiveFormat;
 
-    protected function configure()
-    {
+    protected function configure() {
         $this->setName('image:dump')
             ->setDescription('Dump images')
             ->addOption('type', 't', InputOption::VALUE_OPTIONAL, 'type of file to export')
             ->addOption('archive', 'a', InputOption::VALUE_OPTIONAL, 'Archive format', 'tar.gz');
     }
-    public function execute(InputInterface $input, OutputInterface $output)
-    {
 
+    public function execute(InputInterface $input, OutputInterface $output) {
         if (!is_dir(_PS_ROOT_DIR_ . '/dumps')) {
             $filesystem = new Filesystem;
             $filesystem->mkdir(_PS_ROOT_DIR_ . '/dumps', 0755);
@@ -52,7 +49,6 @@ class ImageDumpCommand extends Command
         $this->_type = $input->getOption('type');
 
         switch ($this->_type) {
-
             case 'admin':
             case 'cms':
             case 'tmp':
@@ -68,7 +64,7 @@ class ImageDumpCommand extends Command
                 break;
 
             default:
-                $directory = "";
+                $directory = '';
                 break;
         }
 
@@ -84,7 +80,7 @@ class ImageDumpCommand extends Command
             }
 
             $output->writeln('<info>Images export started</info>');
-            $export = shell_exec("cd " . $exportPath . ' && ' . $command);
+            $export = shell_exec('cd ' . $exportPath . ' && ' . $command);
             $output->writeln($export);
             $output->writeln('<info>Images export ended in path ' . $filePath . '</info>');
         } else {

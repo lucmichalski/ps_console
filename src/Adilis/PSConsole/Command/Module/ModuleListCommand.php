@@ -18,10 +18,8 @@ use Module;
  * Commande qui permet de récupérer la liste des modules installé
  *
  */
-class ListCommand extends Command
-{
-    protected function configure()
-    {
+class ModuleListCommand extends Command {
+    protected function configure() {
         $this
             ->setName('module:list')
             ->setDescription('Get modules list')
@@ -51,9 +49,7 @@ class ListCommand extends Command
             );
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
-    {
-
+    protected function execute(InputInterface $input, OutputInterface $output) {
         $modules = Module::getModulesOnDisk();
         //module stdClass definition
         /*
@@ -79,7 +75,7 @@ class ListCommand extends Command
          */
 
         //sort by module name
-        usort($modules, array($this, "cmp"));
+        usort($modules, [$this, 'cmp']);
         // apply filters
         if ($input->getOption('active')) {
             $modules = array_filter($modules, function ($module) {
@@ -102,7 +98,7 @@ class ListCommand extends Command
             });
         }
 
-        $output->writeln("<info>Currently module on disk:</info>");
+        $output->writeln('<info>Currently module on disk:</info>');
 
         $nr = 0;
         $table = new Table($output);
@@ -121,8 +117,7 @@ class ListCommand extends Command
         $output->writeln("<info>Total modules on disk: $nr</info>");
     }
 
-    private function cmp($a, $b)
-    {
+    private function cmp($a, $b) {
         return strcmp($a->name, $b->name);
     }
 }

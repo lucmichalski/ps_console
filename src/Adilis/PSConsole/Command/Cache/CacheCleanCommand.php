@@ -13,25 +13,22 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Cache;
 
-class CacheCleanCommand extends Command
-{
-    protected function configure()
-    {
+class CacheCleanCommand extends Command {
+    protected function configure() {
         $this
             ->setName('cache:clean')
             ->setDescription('Clean cache')
             ->addArgument('key', InputArgument::OPTIONAL, 'key name | default *');
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
-    {
+    protected function execute(InputInterface $input, OutputInterface $output) {
         $key = $input->getArgument('key');
 
         if (!$key || $key == '') {
-            $key = "*";
+            $key = '*';
         }
 
-        $cache =  Cache::getInstance();
+        $cache = Cache::getInstance();
         $cache->clean($key);
 
         $output->writeln('<info>Cache cleaned</info>');

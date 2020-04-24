@@ -5,14 +5,11 @@ namespace Adilis\PSConsole\PhpParser\Printer;
 use PhpParser\PrettyPrinter\Standard;
 use PhpParser\Node\Stmt;
 
-
-class NicePrinter extends Standard
-{
+class NicePrinter extends Standard {
     protected $nl = "\n";
     private $isFirstClassMethod = true;
 
-    protected function pStmt_ClassMethod(Stmt\ClassMethod $node)
-    {
+    protected function pStmt_ClassMethod(Stmt\ClassMethod $node) {
         $return = ($this->isFirstClassMethod ? $this->nl : '')
             . $this->pModifiers($node->flags)
             . 'function ' . ($node->byRef ? '&' : '') . $node->name

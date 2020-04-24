@@ -13,39 +13,18 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Helper\Table;
 use Hook;
 
-/**
- * Class Module
- * List hook with registered modules
- */
-class HookListCommand extends Command
-{
-    /**
-     * @inheritDoc
-     */
-    protected function configure()
-    {
+class HookListCommand extends Command {
+    protected function configure() {
         $this
             ->setName('hook:list')
             ->setDescription('List all hooks registered in database');
     }
 
-    /**
-     * @inheritDoc
-     */
-    public function execute(InputInterface $input, OutputInterface $output)
-    {
-        //Get Hooks list
-        $hooks = Hook::getHooks();
-
-        //Extract only hooks name
+    public function execute(InputInterface $input, OutputInterface $output) {
         $hooks = array_map(function ($row) {
             return $row['name'];
-        }, $hooks);
+        }, Hook::getHooks());
 
-        //Sort hooks by name
-        usort($hooks, array($this, "cmp"));
-
-        //Init Table
         $table = new Table($output);
         $table->setHeaders(['Hook Name']);
 
@@ -53,18 +32,6 @@ class HookListCommand extends Command
             $table->addRow([$hook]);
         }
 
-        //Display result
         $table->render();
-    }
-
-    /**
-     * Function to sort hook by name
-     * @param $a
-     * @param $b
-     * @return int|\lt
-     */
-    private function cmp($a, $b)
-    {
-        return strcmp($a, $b);
     }
 }

@@ -20,10 +20,8 @@ use Db;
  * Commands: Add missing products to the index or re-build the entire index
  *
  */
-class IndexCommand extends Command
-{
-    protected function configure()
-    {
+class SearchIndexCommand extends Command {
+    protected function configure() {
         $this
             ->setName('search:index')
             ->setDescription('Add missing products to the index or re-build the entire index (default)')
@@ -34,8 +32,7 @@ class IndexCommand extends Command
             );
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
-    {
+    protected function execute(InputInterface $input, OutputInterface $output) {
         $type = $input->getArgument('type');
 
         Context::getContext()->shop->setContext(Shop::CONTEXT_ALL);

@@ -17,13 +17,11 @@ use Symfony\Component\Finder\Finder;
  * Class index
  * Command sample description
  */
-class indexCommand extends Command
-{
+class DevIndexCommand extends Command {
     /**
      * @inheritDoc
      */
-    protected function configure()
-    {
+    protected function configure() {
         $this
             ->setName('dev:add-index-files')
             ->setDescription('Add missing index.php files in directory')
@@ -37,33 +35,34 @@ class indexCommand extends Command
     /**
      * @inheritDoc
      */
-    public function execute(InputInterface $input, OutputInterface $output)
-    {
+    public function execute(InputInterface $input, OutputInterface $output) {
         $dir = $input->getArgument('dir');
         try {
-            if (!is_dir(_PS_ROOT_DIR_ . DIRECTORY_SEPARATOR . $dir)) {
+            $dir = _PS_ROOT_DIR_ . DIRECTORY_SEPARATOR . $dir;
+            if (!is_dir($dir)) {
                 throw new \Exception('directory doesn\'t exists');
             }
 
-            $finder = new Finder();
+            /* Fix current directory */
+            if (!file_exists($dir . DIRECTORY_SEPARATOR . 'index.php')) {
+                copy(_PS_IMG_DIR_ . 'index.php', $dir . DIRECTORY_SEPARATOR . 'index.php');
+            }
 
-            //List all directories
-            $directories = $finder->directories()->in(_PS_ROOT_DIR_ . DIRECTORY_SEPARATOR . $dir);
+            $finder = new Finder();
+            $directories = $finder->directories()->in($dir);
 
             $i = 0;
             foreach ($directories as $directory) {
                 ${$i} = new Finder();
-                //Check if index.php file exists in directory
                 $indexFile = ${$i}->files()->in((string) $directory)->depth('==0')->name('index.php');
-                //Create if if not
                 if (!sizeof($indexFile)) {
                     copy(_PS_IMG_DIR_ . 'index.php', $directory . DIRECTORY_SEPARATOR . 'index.php');
                 }
                 $i++;
             }
         } catch (\Exception $e) {
-            $output->writeln("<info>ERROR:" . $e->getMessage() . "</info>");
+            $output->writeln('<info>ERROR:' . $e->getMessage() . '</info>');
         }
-        $output->writeln("<info>Index files added with success</info>");
+        $output->writeln('<info>Index files added with success</info>');
     }
 }

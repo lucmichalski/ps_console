@@ -6,10 +6,8 @@ use Hook;
 use Symfony\Component\Console\Question\Question;
 use Validate;
 
-class HookQuestion extends Question
-{
-    public function __construct($question, $default = null)
-    {
+class HookQuestion extends Question {
+    public function __construct($question, $default = null) {
         parent::__construct($question, $default);
         $this
             ->setAutocompleterValues(self::getHookList())
@@ -21,8 +19,7 @@ class HookQuestion extends Question
             });
     }
 
-    private function getHookList()
-    {
+    private function getHookList() {
         $hooks = array_map(function ($row) {
             return $row['name'];
         }, Hook::getHooks());

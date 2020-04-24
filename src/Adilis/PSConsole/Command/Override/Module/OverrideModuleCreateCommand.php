@@ -12,17 +12,15 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\Question;
 use Symfony\Component\Filesystem\Filesystem;
 
-class CreateCommand extends Command
-{
-    protected function configure()
-    {
+class OverrideModuleCreateCommand extends Command {
+    protected function configure() {
         $this
             ->setName('override:module:create')
             ->setDescription('Create module override')
             ->addArgument('moduleName', InputArgument::OPTIONAL, 'module name');
     }
-    public function execute(InputInterface $input, OutputInterface $output)
-    {
+
+    public function execute(InputInterface $input, OutputInterface $output) {
         $moduleName = $input->getArgument('moduleName');
         $helper = $this->getHelper('question');
         $filesystem = new Filesystem();
@@ -50,6 +48,6 @@ class CreateCommand extends Command
         $output->writeln('<info>Module override ' . $moduleName . ' created with sucess</info>');
 
         $this->getApplication()->find('cache:index')->run(new ArrayInput([]), $output);
-        $this->getApplication()->find('dev:add-index-files')->run(new ArrayInput(['dir'  => 'override/modules']), $output);
+        $this->getApplication()->find('dev:add-index-files')->run(new ArrayInput(['dir' => 'override/modules']), $output);
     }
 }

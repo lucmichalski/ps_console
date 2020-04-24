@@ -20,8 +20,7 @@ use Symfony\Component\Finder\Finder;
  * Class controller
  * Command sample description
  */
-class ModuleControllerCreateCommand extends Command
-{
+class ModuleControllerCreateCommand extends Command {
     /** @var string Module Name */
     protected $_moduleName;
 
@@ -36,22 +35,22 @@ class ModuleControllerCreateCommand extends Command
 
     /** @var Filesystem */
     protected $_filesystem;
+
     /**
      * @inheritDoc
      */
-    protected function configure()
-    {
+    protected function configure() {
         $this
             ->setName('module:controller:create')
             ->setDescription('Generate module controller file')
-            ->addArgument('moduleName', InputArgument::REQUIRED, 'module name');;
+            ->addArgument('moduleName', InputArgument::REQUIRED, 'module name');
+        ;
     }
 
     /**
      * @inheritDoc
      */
-    public function execute(InputInterface $input, OutputInterface $output)
-    {
+    public function execute(InputInterface $input, OutputInterface $output) {
         $this->_moduleName = $input->getArgument('moduleName');
 
         if (!is_dir(_PS_MODULE_DIR_ . $this->_moduleName)) {
@@ -63,9 +62,9 @@ class ModuleControllerCreateCommand extends Command
         $this->_filesystem = new Filesystem();
 
         $fieldQuestion = new Question('<question>Controller type (default is admin) :</question>', 'admin');
-        $fieldQuestion->setAutocompleterValues(array('admin', 'front'));
+        $fieldQuestion->setAutocompleterValues(['admin', 'front']);
         $fieldQuestion->setValidator(function ($answer) {
-            if ($answer !== null && !in_array($answer, array('admin', 'front'))) {
+            if ($answer !== null && !in_array($answer, ['admin', 'front'])) {
                 throw new \RuntimeException('The field type must be part of the suggested');
             }
             return $answer;
@@ -111,8 +110,7 @@ class ModuleControllerCreateCommand extends Command
         echo $output->writeln('<info>Controller ' . $this->_controllerName . ' created with sucess');
     }
 
-    protected function _createDirectories()
-    {
+    protected function _createDirectories() {
         if ($this->_controllerType == 'admin') {
             if (!$this->_filesystem->exists(_PS_MODULE_DIR_ . $this->_moduleName . '/controllers/admin')) {
                 $this->_filesystem->mkdir(_PS_MODULE_DIR_ . $this->_moduleName . '/controllers/admin', 0775);
@@ -130,8 +128,7 @@ class ModuleControllerCreateCommand extends Command
         $this->addIndexFiles(_PS_MODULE_DIR_ . $this->_moduleName . '/controllers');
     }
 
-    private function addIndexFiles($dir)
-    {
+    private function addIndexFiles($dir) {
         try {
             if (!is_dir($dir)) {
                 throw new \Exception('directory doesn\'t exists');
@@ -155,12 +152,11 @@ class ModuleControllerCreateCommand extends Command
                 $i++;
             }
         } catch (\Exception $e) {
-            $output->writeln("<info>ERROR:" . $e->getMessage() . "</info>");
+            $output->writeln('<info>ERROR:' . $e->getMessage() . '</info>');
         }
     }
 
-    protected function _getAdminControllerContent()
-    {
+    protected function _getAdminControllerContent() {
         return
             '<?php
 class {controllerClass}Controller extends ModuleAdminController {

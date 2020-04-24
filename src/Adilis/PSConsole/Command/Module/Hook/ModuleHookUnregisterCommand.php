@@ -13,19 +13,17 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Module;
 
-class ModuleHookUnregisterCommand extends ModuleAbstract
-{
-    protected function configure()
-    {
+class ModuleHookUnregisterCommand extends ModuleAbstract {
+    protected function configure() {
         $this
             ->setName('module:hook:unregister')
             ->setDescription('Remove module to one or several hooks')
             ->addModuleNameArgument()
-            ->addHookListArgument();;
+            ->addHookListArgument();
+        ;
     }
 
-    public function execute(InputInterface $input, OutputInterface $output)
-    {
+    public function execute(InputInterface $input, OutputInterface $output) {
         $hookList = $input->getArgument('hooksList');
         if (!count($hookList)) {
             $fieldQuestion = new HookQuestion('<question>Add hook :</question>');

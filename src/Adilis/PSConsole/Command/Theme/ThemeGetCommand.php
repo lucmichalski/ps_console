@@ -22,23 +22,20 @@ use Validate;
  * Class Get
  * Command sample description
  */
-class GetCommand extends Command
-{
+class ThemeGetCommand extends Command {
     protected $_progressBar = null;
     protected $_filesystem = null;
     protected $_finderSystem = null;
     protected $_ouput = null;
 
-    protected function configure()
-    {
+    protected function configure() {
         $this
             ->setName('theme:get')
             ->setDescription('Download theme from url')
             ->addArgument('url', InputArgument::OPTIONAL, 'Theme URL');
     }
 
-    public function execute(InputInterface $input, OutputInterface $output)
-    {
+    public function execute(InputInterface $input, OutputInterface $output) {
         $this->_output = $output;
         $this->_filesystem = new Filesystem();
         $this->_finder = new Finder();
@@ -60,7 +57,7 @@ class GetCommand extends Command
         $filePath = _PS_ROOT_DIR_ . '/themes/' . $fileName;
 
         if (!$this->_filesystem->exists($filePath)) {
-            $output->writeln("<info>Start download theme</info>");
+            $output->writeln('<info>Start download theme</info>');
             $context = stream_context_create([], ['notification' => [$this, 'progress']]);
             $resource = file_get_contents($url, false, $context);
             $this->_progressBar->finish();
@@ -69,17 +66,16 @@ class GetCommand extends Command
         }
 
         $zip = new \ZipArchive;
-        if ($zip->open($filePath) === TRUE) {
+        if ($zip->open($filePath) === true) {
             $zip->extractTo(_PS_ROOT_DIR_ . '/themes/' . $themeName);
             $zip->close();
 
             $this->_filesystem->remove($filePath);
         }
-        $output->writeln("<info>Theme have successfully been copied in /themes/" . $themeName);
+        $output->writeln('<info>Theme have successfully been copied in /themes/' . $themeName);
     }
 
-    public function progress($notificationCode, $severity, $message, $messageCode, $bytesTransferred, $bytesMax)
-    {
+    public function progress($notificationCode, $severity, $message, $messageCode, $bytesTransferred, $bytesMax) {
         if (STREAM_NOTIFY_REDIRECTED === $notificationCode) {
             $this->_progressBar->clear();
             $this->_progressBar = null;

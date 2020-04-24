@@ -15,17 +15,14 @@ use Media;
 /**
  * Clear Media cache
  */
-class CacheMediaCommand extends Command
-{
-    protected function configure()
-    {
+class CacheMediaCommand extends Command {
+    protected function configure() {
         $this
             ->setName('cache:media')
             ->setDescription('Clean media cache directory');
     }
 
-    public function execute(InputInterface $input, OutputInterface $output)
-    {
+    public function execute(InputInterface $input, OutputInterface $output) {
         Media::clearCache();
         $output->writeln('<info>Media cache cleared</info>');
     }

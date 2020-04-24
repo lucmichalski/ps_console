@@ -11,15 +11,13 @@ use PhpParser\Node\Stmt\PropertyProperty;
 use PhpParser\NodeFinder;
 use PhpParser\NodeVisitorAbstract;
 
-class ModuleAddHookNodeVisitor extends NodeVisitorAbstract
-{
+class ModuleAddHookNodeVisitor extends NodeVisitorAbstract {
     const HOOKS_PROPERTY_NAME = 'hooks';
 
     protected $_moduleName;
     protected $_methodName;
 
-    public function __construct($moduleName, $hookName)
-    {
+    public function __construct($moduleName, $hookName) {
         $this->_moduleName = $moduleName;
         $this->_hookName = $hookName;
         $this->_methodName = 'hook' . ucfirst($this->_hookName);
@@ -30,9 +28,7 @@ class ModuleAddHookNodeVisitor extends NodeVisitorAbstract
         $this->_haveHooksProperty = false;
     }
 
-    public function afterTraverse(array $nodes)
-    {
-
+    public function afterTraverse(array $nodes) {
         if ($this->_haveMethod && $this->_haveHooksProperty) {
             return;
         }
@@ -65,9 +61,7 @@ class ModuleAddHookNodeVisitor extends NodeVisitorAbstract
         }
     }
 
-    public function enterNode(Node $node)
-    {
-
+    public function enterNode(Node $node) {
         dump($node);
         if ($this->_haveMethod && $this->_haveHooksProperty) {
             return;

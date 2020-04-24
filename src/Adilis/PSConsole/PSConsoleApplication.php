@@ -14,8 +14,7 @@ namespace Adilis\PSConsole;
 use Symfony\Component\Console\Application as BaseApplication;
 use Symfony\Component\Finder\Finder;
 
-class PSConsoleApplication extends BaseApplication
-{
+class PSConsoleApplication extends BaseApplication {
     const APP_NAME = 'PSConsole';
 
     /** @var string php|phar Console run mod */
@@ -28,8 +27,7 @@ class PSConsoleApplication extends BaseApplication
      * Set RunAs Mode
      * @param string $mode
      */
-    public function setRunAs($mode)
-    {
+    public function setRunAs($mode) {
         $this->_runAs = $mode;
     }
 
@@ -37,16 +35,14 @@ class PSConsoleApplication extends BaseApplication
      * Get RunAs
      * @return string
      */
-    public function getRunAs()
-    {
+    public function getRunAs() {
         return $this->_runAs;
     }
 
     /**
      * Automatically Detect Registered commands
      */
-    public function getDeclaredCommands()
-    {
+    public function getDeclaredCommands() {
         if ($this->getRunAs() == 'phar') {
             $dir = $this->_getPharPath();
         } else {
@@ -55,12 +51,12 @@ class PSConsoleApplication extends BaseApplication
 
         $finder = new Finder();
         $commands = $finder->files()->name('*Command.php')->in($dir);
-        $customCommands = array();
+        $customCommands = [];
         if (sizeof($commands)) {
             foreach ($commands as $command) {
                 $classPath = 'Adilis\\PSConsole\\Command\\' . str_replace(
                     '/',
-                    "\\",
+                    '\\',
                     $command->getRelativePathname()
                 );
                 $commandName = basename($classPath, '.php');
@@ -75,8 +71,7 @@ class PSConsoleApplication extends BaseApplication
      * Get Phar path
      * @return string
      */
-    protected function _getPharPath()
-    {
+    protected function _getPharPath() {
         $paths = explode(DIRECTORY_SEPARATOR, __DIR__);
         $paths = array_reverse($paths);
         $pharName = $paths[3];

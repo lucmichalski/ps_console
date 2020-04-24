@@ -15,7 +15,7 @@ use Adilis\PSConsole\PSConsoleApplication;
 require_once 'src/vendor/autoload.php';
 
 //Console Application
-$app = new PSConsoleApplication('PSConsoleApplication', '1.0.0');
+$app = new PSConsoleApplication('PSConsole', '1.0.0');
 
 //Autoload Prestashop
 if (is_file('../../config/config.inc.php')) {
@@ -24,10 +24,10 @@ if (is_file('../../config/config.inc.php')) {
 }
 //If no prestashop conf find, only allow to install Prestashop
 else {
-    $configuration['commands'] = array(
+    $configuration['commands'] = [
         'Adilis\PSConsole\Command\Install\InstallCommand',
         'Adilis\PSConsole\Command\Install\InfoCommand'
-    );
+    ];
     $app->setDefaultCommand('install:info');
 }
 

@@ -15,18 +15,15 @@ use Symfony\Component\Filesystem\Filesystem;
  * Class CreateCommand
  * Command sample description
  */
-class CommandCreateCommand extends Command
-{
-    protected function configure()
-    {
+class CommandCreateCommand extends Command {
+    protected function configure() {
         $this
             ->setName('command:create')
             ->setDescription('Create a new command skeleton')
             ->setAliases(['cmd:create']);
     }
 
-    public function execute(InputInterface $input, OutputInterface $output)
-    {
+    public function execute(InputInterface $input, OutputInterface $output) {
         $helper = $this->getHelper('question');
 
         $commandName = $helper->ask($input, $output, $this->_getCommandNameQuestion());
@@ -49,8 +46,7 @@ class CommandCreateCommand extends Command
      * Get command name question
      * @return Question
      */
-    protected function _getCommandNameQuestion()
-    {
+    protected function _getCommandNameQuestion() {
         $question = new Question('<question>Command Name (ex domain:action or domain:subdomain:action )</question>');
         $question->setNormalizer(function ($anwser) {
             return $anwser ? trim($anwser) : null;
@@ -69,8 +65,7 @@ class CommandCreateCommand extends Command
      * Get command description question
      * @return Question
      */
-    protected function _getCommandDescriptionQuestion()
-    {
+    protected function _getCommandDescriptionQuestion() {
         $question = new Question('<question>Command description</question>');
         $question->setValidator(function ($answer) {
             if ($answer === null) {

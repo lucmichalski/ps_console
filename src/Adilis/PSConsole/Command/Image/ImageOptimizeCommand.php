@@ -18,20 +18,15 @@ use Symfony\Component\Finder\Finder;
  * Class Optimize
  * Command sample description
  */
-class ImageOptimizeCommand extends Command
-{
+class ImageOptimizeCommand extends Command {
     /** @var array Images Types */
-
-
-    protected function configure()
-    {
+    protected function configure() {
         $this
             ->setName('image:optimize')
             ->setDescription('Optimize images with https://resmush.it/');
     }
 
-    public function execute(InputInterface $input, OutputInterface $output)
-    {
+    public function execute(InputInterface $input, OutputInterface $output) {
         $this->_helper = $this->getHelper('question');
         $this->_finder = new Finder();
         $this->_filesystem = new FileSystem();
@@ -46,15 +41,14 @@ class ImageOptimizeCommand extends Command
         }
     }
 
-    private function optimize($file)
-    {
+    private function optimize($file) {
         $mime = mime_content_type($file);
         $info = pathinfo($file);
         $name = $info['basename'];
         $output = new CURLFile($file, $mime, $name);
-        $data = array(
-            "files" => $output,
-        );
+        $data = [
+            'files' => $output,
+        ];
 
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, 'http://api.resmush.it/?qlty=75');

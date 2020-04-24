@@ -9,23 +9,21 @@ use PhpParser\NodeDumper;
 use PhpParser\ParserFactory;
 use PhpParser\PrettyPrinter\Standard;
 
-abstract class AbstractBuilder
-{
+abstract class AbstractBuilder {
     protected $_builder;
     protected $_printer;
 
-    public function __construct()
-    {
+    public function __construct() {
         $this->_builder = new BuilderFactory;
         $this->_printer = new NicePrinter();
         return $this;
     }
 
     abstract public function getFilePath();
+
     abstract protected function buildNodes();
 
-    public function getContent()
-    {
+    public function getContent() {
         $nodes = $this->buildNodes();
         /*$code = '<?php  ?>';
         $parser = (new ParserFactory)->create(ParserFactory::PREFER_PHP7);

@@ -7,11 +7,8 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\Question;
 
-class QuestionHelper extends HelperQuestionHelper
-{
-
-    public function askMany(InputInterface $input, OutputInterface $output, Question $question)
-    {
+class QuestionHelper extends HelperQuestionHelper {
+    public function askMany(InputInterface $input, OutputInterface $output, Question $question) {
         $answer_array = [];
         do {
             $answer = $this->ask($input, $output, $question);
