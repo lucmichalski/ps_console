@@ -14,7 +14,6 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\Question;
-use Symfony\Component\Filesystem\Exception\IOException;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Finder\Finder;
 
@@ -35,6 +34,7 @@ class OverrideClassCreateCommand extends Command {
         $className = $input->getArgument('className');
         $helper = $this->getHelper('question');
         $finder = new Finder();
+        $filesystem = new Filesystem();
         $classes_autocompleter = [];
 
         $classesOnDisk = $finder->files()->in(_PS_CLASS_DIR_)->name('*.php')->notName('index.php');
@@ -62,16 +62,21 @@ class OverrideClassCreateCommand extends Command {
         }
 
         $builder = new ClassOverrideBuilder($className, $classPath);
-        try {
-            $filesystem = new Filesystem();
-            $filesystem->dumpFile($builder->getFilePath(), $builder->getContent());
-        } catch (IOException $e) {
-            $output->writeln('<error>Unable to write file: ' . $builder->getFilePath() . '</error>');
-            return;
-        }
+        $filesystem->dumpFile($builder->getFilePath(), $builder->getContent());
 
         $output->writeln('<info>Class override ' . $className . ' created with sucess</info>');
+
         $this->getApplication()->find('cache:index')->run(new ArrayInput([]), $output);
         $this->getApplication()->find('dev:add-index-files')->run(new ArrayInput(['dir' => 'override/classes']), $output);
+    }
+
+    protected function _getDefaultContent() {
+        $classStr = "<?php\n";
+        $classStr .= "\tif (!defined('_PS_VERSION_')) {\n";
+        $classStr .= "\t\texit;\n";
+        $classStr .= "\t}\n\n";
+        $classStr .= "\tclass {className} extends {className}Core {\n\n";
+        $classStr .= "\t}\n";
+        return $classStr;
     }
 }
