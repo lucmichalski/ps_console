@@ -2,13 +2,11 @@
 
 Prestashop cli tools.
 
+## Install using PS Console Manager
+
+If your prestashop already installed you could install [PS Console Manager](https://github.com/sas-adilis/ps_console_manager).
+
 ## Install Phar version
-
-### Manual installation
-
-Download master file at https://github.com/sas-adilis/ps_console/raw/master/bin/ps.phar and upload in prestashop root directory.
-
-### Installation via SSH
 
 download the file from github in your prestashop root directory ( or from the release page )
 
