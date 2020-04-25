@@ -27,8 +27,7 @@ class OverrideClassCreateCommand extends Command {
         $this
             ->setName('override:class:create')
             ->setDescription('Create core class override')
-            ->addArgument('className', InputArgument::OPTIONAL, 'class name')
-            ->setAliases(['create:override:class']);
+            ->addArgument('className', InputArgument::OPTIONAL, 'class name');
     }
 
     public function execute(InputInterface $input, OutputInterface $output) {

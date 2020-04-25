@@ -16,8 +16,8 @@ use Symfony\Component\Finder\Finder;
 
 class OverrideControllerCreateCommand extends Command {
     protected function configure() {
-        $this->setName('override:controller:create');
-        $this->setDescription('Create front or admin controller override')
+        $this->setName('override:controller:create')
+            ->setDescription('Create front or admin controller override')
             ->addArgument('controllerType', InputArgument::OPTIONAL, 'front(default)|admin')
             ->addArgument('controllerName', InputArgument::OPTIONAL, 'controller name');
     }

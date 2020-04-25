@@ -20,8 +20,7 @@ class OverrideListCommand extends Command {
     protected function configure() {
         $this
             ->setName('override:list')
-            ->setDescription('List overrides of classes and controllers in the project')
-            ->setAliases(['list:override']);
+            ->setDescription('List overrides of classes and controllers in the project');
     }
 
     public function execute(InputInterface $input, OutputInterface $output) {
