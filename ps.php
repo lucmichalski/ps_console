@@ -18,8 +18,8 @@ require_once 'src/vendor/autoload.php';
 $app = new PSConsoleApplication('PSConsole', '1.0.0');
 
 //Autoload Prestashop
-if (is_file('../../config/config.inc.php')) {
-    include_once '../../config/config.inc.php';
+if (is_file('../config/config.inc.php')) {
+    include_once '../config/config.inc.php';
     $app->getDeclaredCommands();
 }
 //If no prestashop conf find, only allow to install Prestashop
