@@ -16,8 +16,9 @@ class NicePrinter extends Standard {
             . '(' . $this->pCommaSeparated($node->params) . ')'
             . (null !== $node->returnType ? ' : ' . $this->p($node->returnType) : '')
             . (null !== $node->stmts
-                ? ' {' . $this->pStmts($node->stmts) . $this->nl . '}' . $this->nl
-                : ';');
+                ? ' {' . $this->pStmts($node->stmts) . $this->nl . '}'
+                : ';')
+            . $this->nl;
 
         $this->isFirstClassMethod = false;
         return $return;
