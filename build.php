@@ -10,7 +10,7 @@ $binDir = dirname(__FILE__) . '/bin/';
 $versionFile = $binDir . 'current.version';
 
 shell_exec('php ' . dirname(__FILE__) . '/bin/' . 'box.phar build');
-$shaFile = sha1_file(dirname(__FILE__) . '/bin/' . 'psc.phar');
+$shaFile = sha1_file(dirname(__FILE__) . '/bin/' . 'psc');
 file_put_contents($versionFile, $shaFile);
 
 exec('php ' . dirname(__FILE__) . '/ps.php --format=md', $output);
