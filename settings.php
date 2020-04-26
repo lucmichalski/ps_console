@@ -1,3 +1,3 @@
 <?php
-    DEFINE ('PSC_CONSOLE_NAME', 'PSConsole');
-    DEFINE ('PSC_CONSOLE_VERSION', '1.0.0');
+    DEFINE('PSC_CONSOLE_NAME', 'PSConsole');
+    DEFINE('PSC_CONSOLE_VERSION', '1.0.1');

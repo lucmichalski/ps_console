@@ -15,7 +15,7 @@ use Symfony\Component\Console\Output\OutputInterface;
  * Class ide
  * Command sample description
  */
-class ideCommand extends Command {
+class DevIdeCommand extends Command {
     const CLASS_NAME_SOURCE = 'https://raw.githubusercontent.com/julienbourdeau/PhpStorm-PrestaShop-Autocomplete/master/autocomplete.php';
     const CLASS_NAME_FILE = 'autocomplete.php';
 
