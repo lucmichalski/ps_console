@@ -13,9 +13,10 @@ use Adilis\PSConsole\PSConsoleApplication;
 
 //Autoload Composer
 require_once 'src/vendor/autoload.php';
+require_once 'config.php';
 
 //Console Application
-$app = new PSConsoleApplication('PSConsole', '1.0.0');
+$app = new PSConsoleApplication(PSC_CONSOLE_NAME, PSC_CONSOLE_VERSION);
 
 //Autoload Prestashop
 if (is_file('../config/config.inc.php')) {

@@ -11,20 +11,16 @@
 
 use Adilis\PSConsole\PSConsoleApplication;
 
-//Autoload Composer
 require_once 'src/vendor/autoload.php';
+require_once 'config.php';
 
-//Console Application
-$app = new PSConsoleApplication('PSConsole', '1.0.0');
+$app = new PSConsoleApplication(PSC_CONSOLE_NAME, PSC_CONSOLE_VERSION);
 $app->setRunAs('phar');
 
-//Autoload Prestashop
 if (is_file('config/config.inc.php')) {
     include_once 'config/config.inc.php';
     $app->getDeclaredCommands();
-}
-//If no prestashop conf find, only allow to install Prestashop
-else {
+} else {
     $configuration['commands'] = [
         'Adilis\PSConsole\Command\Install\InstallCommand',
         'Adilis\PSConsole\Command\Install\InfoCommand'
