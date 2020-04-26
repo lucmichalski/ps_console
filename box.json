@@ -9,7 +9,7 @@
     }
   ],
   "main": "bin/PSConsolePhar.php",
-  "output": "bin/ps.phar",
+  "output": "bin/psc.phar",
   "stub": true,
   "blacklist": [
     "src/Adilis/PSConsole/Command/Command/CommandCreateCommand.php",

@@ -12,9 +12,9 @@ In your prestashop root directory
 
 ```bash
 
-wget https://github.com/sas-adilis/ps_console/raw/master/bin/psc
+wget https://github.com/sas-adilis/ps_console/raw/master/bin/psc.phar
 chmod +x psc
-php psc list
+php psc.phar list
 
 ```
 
