@@ -12,7 +12,7 @@
 use Adilis\PSConsole\PSConsoleApplication;
 
 require_once 'src/vendor/autoload.php';
-require_once 'config.php';
+require_once 'settings.php';
 
 $app = new PSConsoleApplication(PSC_CONSOLE_NAME, PSC_CONSOLE_VERSION);
 $app->setRunAs('phar');

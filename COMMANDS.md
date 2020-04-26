@@ -1,1 +1,0 @@
-Could not open input file: /Users/julienachard/Documents/Sites/prestashop/1.7.6.4/console/ps.php

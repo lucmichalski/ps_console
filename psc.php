@@ -13,7 +13,7 @@ use Adilis\PSConsole\PSConsoleApplication;
 
 //Autoload Composer
 require_once 'src/vendor/autoload.php';
-require_once 'config.php';
+require_once 'settings.php';
 
 //Console Application
 $app = new PSConsoleApplication(PSC_CONSOLE_NAME, PSC_CONSOLE_VERSION);
