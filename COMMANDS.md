@@ -1,4 +1,4 @@
-PSConsole 1.0.0
+PSConsole 1.0.1
 ===============
 
 * [`help`](#help)
@@ -113,7 +113,6 @@ PSConsole 1.0.0
 
 * [`theme:child`](#themechild)
 * [`theme:get`](#themeget)
-* [`theme:install`](#themeinstall)
 
 `help`
 ------
@@ -4360,82 +4359,6 @@ Theme URL
 * Is required: no
 * Is array: no
 * Default: `NULL`
-
-### Options
-
-#### `--help|-h`
-
-Display this help message
-
-* Accept value: no
-* Is value required: no
-* Is multiple: no
-* Default: `false`
-
-#### `--quiet|-q`
-
-Do not output any message
-
-* Accept value: no
-* Is value required: no
-* Is multiple: no
-* Default: `false`
-
-#### `--verbose|-v|-vv|-vvv`
-
-Increase the verbosity of messages: 1 for normal output, 2 for more verbose output and 3 for debug
-
-* Accept value: no
-* Is value required: no
-* Is multiple: no
-* Default: `false`
-
-#### `--version|-V`
-
-Display this application version
-
-* Accept value: no
-* Is value required: no
-* Is multiple: no
-* Default: `false`
-
-#### `--ansi`
-
-Force ANSI output
-
-* Accept value: no
-* Is value required: no
-* Is multiple: no
-* Default: `false`
-
-#### `--no-ansi`
-
-Disable ANSI output
-
-* Accept value: no
-* Is value required: no
-* Is multiple: no
-* Default: `false`
-
-#### `--no-interaction|-n`
-
-Do not ask any interactive question
-
-* Accept value: no
-* Is value required: no
-* Is multiple: no
-* Default: `false`
-
-`theme:install`
----------------
-
-Install a theme
-
-### Usage
-
-* `theme:install`
-
-Install a theme
 
 ### Options
 
