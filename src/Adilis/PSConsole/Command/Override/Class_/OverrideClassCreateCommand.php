@@ -7,15 +7,13 @@
 
 namespace Adilis\PSConsole\Command\Override\Class_;
 
-use Adilis\PSConsole\PhpParser\Builder\ClassOverrideBuilder;
+use Adilis\PSConsole\Template\Builder\ClassOverrideTemplateBuilder;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\Question;
-use Symfony\Component\Filesystem\Exception\IOException;
-use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Finder\Finder;
 
 /**
@@ -60,12 +58,11 @@ class OverrideClassCreateCommand extends Command {
             }
         }
 
-        $builder = new ClassOverrideBuilder($className, $classPath);
         try {
-            $filesystem = new Filesystem();
-            $filesystem->dumpFile($builder->getFilePath(), $builder->getContent());
-        } catch (IOException $e) {
-            $output->writeln('<error>Unable to write file: ' . $builder->getFilePath() . '</error>');
+            $builder = new ClassOverrideTemplateBuilder($className, $classPath);
+            $builder->writeFile();
+        } catch (\Exception $e) {
+            $output->writeln('<error>Unable to write file: ' . $e->getMessage() . '</error>');
             return;
         }
 

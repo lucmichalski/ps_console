@@ -8,10 +8,9 @@
 namespace Adilis\PSConsole\Command\Module;
 
 use Adilis\PSConsole\Command\Module\ModuleAbstract;
-use Adilis\PSConsole\Console\Helper\QuestionHelper;
-use Adilis\PSConsole\PhpParser\Builder\ModuleBuilder;
-use Adilis\PSConsole\Console\Question\HookQuestion;
 use Adilis\PSConsole\Console\Question\YesNoQuestion;
+use Adilis\PSConsole\Template\Builder\ModuleTemplateBuilder;
+use Configuration;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -45,23 +44,27 @@ class ModuleCreateCommand extends ModuleAbstract {
             $output->writeln('<error>Module already exists</error>');
         }
 
-        $builder = new ModuleBuilder($this->_moduleName, $author, $displayName, $description, $this->_hookList, $widgetAnswer, $templateAnswer);
-        $this->_filesystem->dumpFile($builder->getFilePath(), $builder->getContent());
-        if (Configuration::get('PSC_LOGO_DEFAULT_PATH') && $this->_filesystem->exists(Configuration::get('PSC_LOGO_DEFAULT_PATH'))) {
-            $this->_filesystem->copy(Configuration::get('PSC_LOGO_DEFAULT_PATH'), $this->_modulePath . '/logo.png');
-        }
-
-        if ($templateAnswer) {
-            foreach ($this->_hookList as $hook) {
-                if (preg_match('#^display#', $hook)) {
-                    $defaultContent = '<p>Content of hook ' . $hook . ' auto-generated</p>';
-                    $fileName = $this->_modulePath . '/views/templates/hook/' . strtolower($hook) . '.tpl';
-                    $this->_filesystem->dumpFile($fileName, $defaultContent);
+        try {
+            $builder = new ModuleTemplateBuilder($this->_moduleName, $author, $displayName, $description, $this->_hookList, $widgetAnswer, $templateAnswer);
+            $builder->writeFile();
+            if (Configuration::get('PSC_LOGO_DEFAULT_PATH') && $this->_filesystem->exists(Configuration::get('PSC_LOGO_DEFAULT_PATH'))) {
+                $this->_filesystem->copy(Configuration::get('PSC_LOGO_DEFAULT_PATH'), $this->_modulePath . '/logo.png');
+            }
+            if ($templateAnswer) {
+                foreach ($this->_hookList as $hook) {
+                    if (preg_match('#^display#', $hook)) {
+                        $defaultContent = '<p>Content of hook ' . $hook . ' auto-generated</p>';
+                        $fileName = $this->_modulePath . '/views/templates/hook/' . strtolower($hook) . '.tpl';
+                        $this->_filesystem->dumpFile($fileName, $defaultContent);
+                    }
                 }
             }
-        }
 
-        $output->writeln('<info>Module generated with success</info>');
-        $this->getApplication()->find('dev:add-index-files')->run(new ArrayInput(['dir' => $this->_moduleRelativePath]), $output);
+            $output->writeln('<info>Module generated with success</info>');
+            $this->getApplication()->find('dev:add-index-files')->run(new ArrayInput(['dir' => $this->_moduleRelativePath]), $output);
+        } catch (\Exception $e) {
+            $output->writeln('<error>Unable to write file: ' . $e->getMessage() . '</error>');
+            return;
+        }
     }
 }

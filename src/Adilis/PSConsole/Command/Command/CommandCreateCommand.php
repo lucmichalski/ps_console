@@ -2,14 +2,12 @@
 
 namespace Adilis\PSConsole\Command\Command;
 
-use Adilis\PSConsole\PhpParser\Builder\CommandBuilder;
+use Adilis\PSConsole\Template\Builder\CommandTemplateBuilder;
 use RuntimeException;
 use Symfony\Component\Console\Command\Command;
-use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\Question;
-use Symfony\Component\Filesystem\Filesystem;
 
 /**
  * Class CreateCommand
@@ -29,17 +27,16 @@ class CommandCreateCommand extends Command {
         $commandName = $helper->ask($input, $output, $this->_getCommandNameQuestion());
         $commandDescription = $helper->ask($input, $output, $this->_getCommandDescriptionQuestion());
 
-        $builder = new CommandBuilder($commandName, $commandDescription);
         try {
-            $filesystem = new Filesystem();
-            $filesystem->dumpFile($builder->getFilePath(), $builder->getContent());
-        } catch (RuntimeException $e) {
-            $output->writeln('<error>Unable to generate the command :' . $e->getMessage() . '</error>');
-            return 1;
+            $builder = new CommandTemplateBuilder($commandName, $commandDescription);
+            $builder->writeFile();
+        } catch (\Exception $e) {
+            $output->writeln('<error>Unable to write file: ' . $e->getMessage() . '</error>');
+            return;
         }
 
         $output->writeln('<info>Command Created with success</info>');
-        return 0;
+        return;
     }
 
     /**

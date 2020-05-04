@@ -2,15 +2,13 @@
 
 namespace Adilis\PSConsole\Command\Override\Module;
 
-use Adilis\PSConsole\PhpParser\Builder\ModuleOverrideBuilder;
-use Module;
+use Adilis\PSConsole\Template\Builder\ModuleOverrideTemplateBuilder;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\Question;
-use Symfony\Component\Filesystem\Filesystem;
 
 class OverrideModuleCreateCommand extends Command {
     protected function configure() {
@@ -23,10 +21,9 @@ class OverrideModuleCreateCommand extends Command {
     public function execute(InputInterface $input, OutputInterface $output) {
         $moduleName = $input->getArgument('moduleName');
         $helper = $this->getHelper('question');
-        $filesystem = new Filesystem();
         $modulesAutocompleter = [];
 
-        foreach (Module::getModulesOnDisk() as $module) {
+        foreach (\Module::getModulesOnDisk() as $module) {
             $modulesAutocompleter[] = $module->name;
         }
 
@@ -42,10 +39,13 @@ class OverrideModuleCreateCommand extends Command {
             $moduleName = $helper->ask($input, $output, $fieldQuestion);
         }
 
-        $builder = new ModuleOverrideBuilder($moduleName);
-
-        $filesystem->dumpFile($builder->getFilePath(), $builder->getContent());
-        $output->writeln('<info>Module override ' . $moduleName . ' created with sucess</info>');
+        try {
+            $builder = new ModuleOverrideTemplateBuilder($moduleName);
+            $builder->writeFile();
+        } catch (\Exception $e) {
+            $output->writeln('<error>Unable to write file: ' . $e->getMessage() . '</error>');
+            return;
+        }
 
         $this->getApplication()->find('cache:index')->run(new ArrayInput([]), $output);
         $this->getApplication()->find('dev:add-index-files')->run(new ArrayInput(['dir' => 'override/modules']), $output);

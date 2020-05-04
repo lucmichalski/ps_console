@@ -8,6 +8,7 @@
 namespace Adilis\PSConsole\Command\Module;
 
 use Adilis\PSConsole\PhpParser\Builder\ModuleUpgradeBuilder;
+use Adilis\PSConsole\Template\Builder\ModuleUpgradeTemplateBuilder;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -49,11 +50,15 @@ class ModuleUpgradeCommand extends ModuleAbstract {
             return;
         }
 
-        $builder = new ModuleUpgradeBuilder($this->_moduleName, $moduleVersion);
-        $this->_filesystem->dumpFile($builder->getFilePath(), $builder->getContent());
-
-        $output->writeln('<info>Update file generated</info>');
-        $this->getApplication()->find('dev:add-index-files')->run(new ArrayInput(['dir' => $this->_moduleRelativePath . 'upgrade']), $output);
+        try {
+            $builder = new ModuleUpgradeTemplateBuilder($this->_moduleName, $moduleVersion);
+            $builder->writeFile();
+            $output->writeln('<info>Update file generated</info>');
+            $this->getApplication()->find('dev:add-index-files')->run(new ArrayInput(['dir' => $this->_moduleRelativePath . 'upgrade']), $output);
+        } catch (\Exception $e) {
+            $output->writeln('<error>Unable to write file: ' . $e->getMessage() . '</error>');
+            return;
+        }
     }
 
     private static function isValidModuleVersion($moduleVersion) {

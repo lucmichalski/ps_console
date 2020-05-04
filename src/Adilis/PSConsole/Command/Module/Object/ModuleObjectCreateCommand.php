@@ -7,16 +7,15 @@
 
 namespace Adilis\PSConsole\Command\Module\Object;
 
-use Adilis\PSConsole\PhpParser\Builder\ModuleObjectBuilder;
-use Adilis\PSConsole\PhpParser\Builder\ModuleObjectInstallBuilder;
+use Adilis\PSConsole\Template\Builder\ModuleObjectInstallTemplateBuilder;
+use Adilis\PSConsole\Template\Builder\ModuleObjectTemplateBuilder;
 use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Output\Output;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\ConfirmationQuestion;
 use Symfony\Component\Console\Question\Question;
-use Symfony\Component\Filesystem\Exception\IOException;
 use Symfony\Component\Filesystem\Filesystem;
 use Validate;
 
@@ -181,29 +180,30 @@ class ModuleObjectcreateCommand extends Command {
         );
 
         /* QUESTION ARE DONE */
-        $filesystem = new Filesystem;
-        $builder = new ModuleObjectBuilder($moduleName, $objectClass, $tableName, $primary, $multishop, $fields);
         try {
-            $filesystem->dumpFile($builder->getFilePath(), $builder->getContent());
-        } catch (IOException $e) {
-            $output->writeln('<error>Unable to create object ' . $objectClass . ' : ' . $e->getMessage() . '</error>');
+            $builder = new ModuleObjectTemplateBuilder($moduleName, $objectClass, $tableName, $primary, $multishop, $fields);
+            $builder->writeFile();
+            $output->writeln('<info>Model file generated</info>');
+        } catch (\Exception $e) {
+            $output->writeln('<error>Unable to write file: ' . $e->getMessage() . '</error>');
             return;
         }
 
+        $filesystem = new Filesystem;
         if ($generateInstallQuery) {
             if ($filesystem->exists(_PS_MODULE_DIR_ . $this->_moduleName . '/sql/install.php')) {
             } else {
-                $builder = new ModuleObjectInstallBuilder($moduleName, $tableName, $primary, $multishop, $fields);
                 try {
-                    $filesystem->dumpFile($builder->getFilePath(), $builder->getContent());
-                } catch (IOException $e) {
-                    $output->writeln('<error>Unable to create install.php for object ' . $objectClass . ' : ' . $e->getMessage() . '</error>');
+                    $builder = new ModuleObjectInstallTemplateBuilder($moduleName, $tableName, $primary, $multishop, $fields);
+                    $builder->writeFile();
+                    $output->writeln('<info>SQL file generated</info>');
+                } catch (\Exception $e) {
+                    $output->writeln('<error>Unable to write file: ' . $e->getMessage() . '</error>');
                     return;
                 }
             }
         }
-
-        $output->writeln('<info>Model file generated</info>');
+        $this->getApplication()->find('dev:add-index-files')->run(new ArrayInput(['dir' => $this->_moduleRelativePath]), $output);
     }
 
     protected function _getValidationFunctions($fieldType = null) {

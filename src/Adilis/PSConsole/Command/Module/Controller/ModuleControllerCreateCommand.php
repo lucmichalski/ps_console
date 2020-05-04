@@ -87,7 +87,7 @@ class ModuleControllerCreateCommand extends Command {
             $defaultContent = $this->_getAdminControllerContent();
             if ($this->_template === true) {
                 $output->writeln('<info>Template cannot be generated for admin controllers</info>');
-            }
+            } 
         } else {
             $defaultContent = $this->_getFrontControllerContent();
             if ($this->_template === true) {

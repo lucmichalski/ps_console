@@ -80,7 +80,6 @@ PSConsole 1.0.1
 * [`module:create:upgrade`](#modulecreateupgrade)
 * [`module:disable`](#moduledisable)
 * [`module:enable`](#moduleenable)
-* [`module:hook:add`](#modulehookadd)
 * [`module:hook:list`](#modulehooklist)
 * [`module:hook:register`](#modulehookregister)
 * [`module:hook:remove`](#modulehookremove)
@@ -2916,100 +2915,6 @@ module name
 * Is required: no
 * Is array: no
 * Default: `NULL`
-
-### Options
-
-#### `--help|-h`
-
-Display this help message
-
-* Accept value: no
-* Is value required: no
-* Is multiple: no
-* Default: `false`
-
-#### `--quiet|-q`
-
-Do not output any message
-
-* Accept value: no
-* Is value required: no
-* Is multiple: no
-* Default: `false`
-
-#### `--verbose|-v|-vv|-vvv`
-
-Increase the verbosity of messages: 1 for normal output, 2 for more verbose output and 3 for debug
-
-* Accept value: no
-* Is value required: no
-* Is multiple: no
-* Default: `false`
-
-#### `--version|-V`
-
-Display this application version
-
-* Accept value: no
-* Is value required: no
-* Is multiple: no
-* Default: `false`
-
-#### `--ansi`
-
-Force ANSI output
-
-* Accept value: no
-* Is value required: no
-* Is multiple: no
-* Default: `false`
-
-#### `--no-ansi`
-
-Disable ANSI output
-
-* Accept value: no
-* Is value required: no
-* Is multiple: no
-* Default: `false`
-
-#### `--no-interaction|-n`
-
-Do not ask any interactive question
-
-* Accept value: no
-* Is value required: no
-* Is multiple: no
-* Default: `false`
-
-`module:hook:add`
------------------
-
-Add hook to module
-
-### Usage
-
-* `module:hook:add [<moduleName>] [<hooksList>]...`
-
-Add hook to module
-
-### Arguments
-
-#### `moduleName`
-
-module name
-
-* Is required: no
-* Is array: no
-* Default: `NULL`
-
-#### `hooksList`
-
-hooks name (separate multiple with spaces)
-
-* Is required: no
-* Is array: yes
-* Default: `array ()`
 
 ### Options
 

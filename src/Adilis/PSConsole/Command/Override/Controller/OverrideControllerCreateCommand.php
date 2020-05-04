@@ -2,16 +2,14 @@
 
 namespace Adilis\PSConsole\Command\Override\Controller;
 
-use Adilis\PSConsole\PhpParser\Builder\FrontControllerOverrideBuilder;
-use Adilis\PSConsole\PhpParser\Builder\AdminControllerOverrideBuilder;
+use Adilis\PSConsole\Template\Builder\AdminControllerOverrideTemplateBuilder;
+use Adilis\PSConsole\Template\Builder\FrontControllerOverrideTemplateBuilder;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\Question;
-use Symfony\Component\Filesystem\Exception\IOException;
-use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Finder\Finder;
 
 class OverrideControllerCreateCommand extends Command {
@@ -68,21 +66,17 @@ class OverrideControllerCreateCommand extends Command {
         }
 
         $builder = $controllerType == 'front' ?
-            new FrontControllerOverrideBuilder($controllerName, $controllerPath) :
-            new AdminControllerOverrideBuilder($controllerName, $controllerPath);
+            new FrontControllerOverrideTemplateBuilder($controllerName, $controllerPath) :
+            new AdminControllerOverrideTemplateBuilder($controllerName, $controllerPath);
 
         try {
-            $filesystem = new Filesystem();
-            $filesystem->dumpFile($builder->getFilePath(), $builder->getContent());
-        } catch (IOException $e) {
+            $builder->writeFile();
+            $output->writeln('<info>Controller override ' . $controllerName . ' created with sucess</info>');
+            $this->getApplication()->find('cache:index')->run(new ArrayInput([]), $output);
+            $this->getApplication()->find('dev:add-index-files')->run(new ArrayInput(['dir' => 'override/controllers']), $output);
+        } catch (\Exception $e) {
             $output->writeln('<error>Unable to create override ' . $controllerName . ' : ' . $e->getMessage() . '</error>');
             return;
         }
-
-        $output->writeln('<info>Controller override ' . $controllerName . ' created with sucess</info>');
-        $this->getApplication()->find('cache:index')->run(new ArrayInput([]), $output);
-        $this->getApplication()->find('dev:add-index-files')->run(new ArrayInput(['dir' => 'override/controllers']), $output);
-
-        $output->writeln('it works');
     }
 }

@@ -20,7 +20,8 @@ class CacheIndexCommand extends Command {
     }
 
     public function execute(InputInterface $input, OutputInterface $output) {
-        ClassIndexCacheClearer::clear();
+        $clearer = new ClassIndexCacheClearer;
+        $clearer->clear();
         $output->writeln('<info>Classes index cache done !</info>');
     }
 }
