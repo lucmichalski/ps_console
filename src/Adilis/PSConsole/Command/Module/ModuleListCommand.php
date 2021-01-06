@@ -12,6 +12,11 @@ use Symfony\Component\Console\Helper\Table;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
+
+use Symfony\Component\Serializer\Encoder\JsonEncoder;
+use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
+use Symfony\Component\Serializer\Serializer;
+
 use Module;
 
 /**
@@ -23,6 +28,12 @@ class ModuleListCommand extends Command {
         $this
             ->setName('module:list')
             ->setDescription('Get modules list')
+            ->addOption(
+                'json',
+                null,
+                InputOption::VALUE_NONE,
+                'JSON format'
+            )
             ->addOption(
                 'active',
                 null,
@@ -98,23 +109,41 @@ class ModuleListCommand extends Command {
             });
         }
 
-        $output->writeln('<info>Currently module on disk:</info>');
+        if $input->getOption('json') {
 
-        $nr = 0;
-        $table = new Table($output);
-        $table->setHeaders(['Name', 'Version', 'Installed', 'Active']);
-        foreach ($modules as $module) {
-            $table->addRow([
-                $module->name,
-                $module->version,
-                ((bool) ($module->installed) ? 'true' : 'false'),
-                ((bool) ($module->active) ? 'true' : 'false')
-            ]);
-            $nr++;
+            $jsonObj = array();
+            // $table = new Table($output);        
+            // $table->setHeaders(['Name', 'Version', 'Installed', 'Active']);
+            foreach ($modules as $module) {
+                $modObj = new stdClass();
+                $modObj->name = $module->name;
+                $modObj->version = $module->version;
+                $modObj->installed = ((bool) ($module->installed) ? 'true' : 'false');
+                $modObj->active = ((bool) ($module->active) ? 'true' : 'false');
+                $jsonObj[] = $modObj;
+            }
+
+            $jsonContent = $serializer->serialize($jsonObj, 'json');
+            $output->writeln($jsonContent); // or return it in a Response
+
+        } else {
+            $output->writeln('<info>Currently module on disk:</info>');
+            $nr = 0;
+            $table = new Table($output);        
+            $table->setHeaders(['Name', 'Version', 'Installed', 'Active']);
+            foreach ($modules as $module) {
+                $table->addRow([
+                    $module->name,
+                    $module->version,
+                    ((bool) ($module->installed) ? 'true' : 'false'),
+                    ((bool) ($module->active) ? 'true' : 'false')
+                ]);
+                $nr++;
+            }
+            $table->render();
+            $output->writeln("<info>Total modules on disk: $nr</info>");
         }
 
-        $table->render();
-        $output->writeln("<info>Total modules on disk: $nr</info>");
     }
 
     private function cmp($a, $b) {
